@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import os
 # Create your models here.
 
 #Student
@@ -11,7 +11,7 @@ class Student(User):
 # Instructor
 class Instructor(User):
     salary =  models.IntegerField(default=0)
-    picture = models.ImageField(upload_to='img/instructors/')
+    picture = models.ImageField(upload_to='images/instructors/')
     bio = models.TextField(max_length = 2000, null = False)
     phoneNumber = models.CharField(max_length=11)
     def __str__(self):
@@ -56,10 +56,19 @@ class News(models.Model):
     Category_ID= models.ForeignKey(Category, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
+
+def get_upload_path(instance, filename):
+    """ creates unique-Path & filename for upload """
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (instance.News_ID.id, ext)
+    return os.path.join(
+        'images','News', instance.News_ID.title, filename
+    )
+
 # NewsPhotos
 class NewsPhoto(models.Model):
     News_ID= models.ForeignKey(News, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to=f"img/news/{News_ID}")
+    picture = models.ImageField(upload_to=get_upload_path)
 
 # Collection
 class Collection(models.Model):
@@ -72,10 +81,16 @@ class Album(models.Model):
     Collection_ID= models.ForeignKey(Collection, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
+
+def get_upload_path2(instance, filename):
+    """ creates unique-Path & filename for upload """
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (instance.Album_ID.id, ext)
+    return os.path.join(
+        'images','Albums',instance.Album_ID.Collection_ID.name, instance.Album_ID.name, filename
+    )
+
 # AlbumPhotos
 class AlbumPhoto(models.Model):
     Album_ID= models.ForeignKey(Album, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='img/{Album_ID}/')
-    
-
-
+    picture = models.ImageField(upload_to=get_upload_path2)
