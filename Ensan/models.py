@@ -56,19 +56,11 @@ class News(models.Model):
     Category_ID= models.ForeignKey(Category, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
-    
-
-# def get_upload_path(instance, filename):
-#     ext = filename.split('.')[-1]
-#     filename = "%s%s.%s" % ('img', instance.pk, ext)
-#     return os.path.join(
-#         'img/news/', instance.News_ID ,'/', filename
-#     )
 
 def get_upload_path(instance, filename):
     """ creates unique-Path & filename for upload """
     ext = filename.split('.')[-1]
-    filename = "%s%s.%s" % ('img',instance, ext)
+    filename = "%s.%s" % (instance.News_ID.id, ext)
     return os.path.join(
         'images','News', instance.News_ID.title, filename
     )
@@ -89,13 +81,13 @@ class Album(models.Model):
     Collection_ID= models.ForeignKey(Collection, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
-    
+
 def get_upload_path2(instance, filename):
     """ creates unique-Path & filename for upload """
     ext = filename.split('.')[-1]
-    filename = "%s%s.%s" % ('img',instance, ext)
+    filename = "%s.%s" % (instance.Album_ID.id, ext)
     return os.path.join(
-        'images','Albums', instance.Album_ID.name, filename
+        'images','Albums',instance.Album_ID.Collection_ID.name, instance.Album_ID.name, filename
     )
 
 # AlbumPhotos
