@@ -24,20 +24,20 @@ class Category(models.Model):
 
 # Class
 DAYS_OF_WEEK = (
-    (0, 'Monday'),
-    (1, 'Tuesday'),
-    (2, 'Wednesday'),
-    (3, 'Thursday'),
-    (4, 'Friday'),
-    (5, 'Saturday'),
-    (6, 'Sunday'),
+    ('Monday', 'Monday'),
+    ('Tuesday', 'Tuesday'),
+    ('Wednesday', 'Wednesday'),
+    ('Thursday', 'Thursday'),
+    ('Friday', 'Friday'),
+    ('Saturday', 'Saturday'),
+    ('Sunday', 'Sunday'),
 )
 class Class(models.Model):
     title = models.CharField(max_length = 100, null = False)
     content = models.TextField(max_length = 4000, null = False)
     fromTime = models.TimeField()
     toTime = models.TimeField()
-    day = models.CharField(max_length=1, choices=DAYS_OF_WEEK)
+    day = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
     Category_ID= models.ForeignKey(Category, on_delete=models.CASCADE)
     Instructor_ID= models.ForeignKey(Instructor, on_delete=models.CASCADE)
     def __str__(self):
