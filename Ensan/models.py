@@ -5,7 +5,7 @@ import os
 
 #Student
 class Student(User):
-    phoneNumber = models.CharField(max_length=11)
+    phoneNumber = models.CharField(max_length=11, null=True)
     def __str__(self):
         return self.username
 # Instructor
@@ -13,7 +13,7 @@ class Instructor(User):
     salary =  models.IntegerField(default=0)
     picture = models.ImageField(upload_to='images/instructors/')
     bio = models.TextField(max_length = 2000, null = False)
-    phoneNumber = models.CharField(max_length=11)
+    phoneNumber = models.CharField(max_length=11, null=True)
     def __str__(self):
         return self.username
 # Category
