@@ -8,63 +8,63 @@ from .serializers import *
 
 
 @api_view(['GET'])
-def all_classes(request):
-    all_classes = Class.objects.all()
-    cl_ser = ClassSerializer(all_classes,many=True)
+def classes(request):
+    classes = Class.objects.all()
+    cl_ser = ClassSerializer(classes,many=True)
     return Response(cl_ser.data)
 
 
 @api_view(['GET'])
-def all_students(request):
-    all_students = Student.objects.all()
-    st_ser = StudentSerializer(all_students,many=True)
+def students(request):
+    students = Student.objects.all()
+    st_ser = StudentSerializer(students,many=True)
     return Response(st_ser.data)
 
 
 ############################
 @api_view(['GET'])
-def all_instructors(request):
-    all_instructor=Instructor.objects.all()
-    inst_ser=InstructorSerializer(all_instructors,many=True)
+def instructors(request):
+    instructor=Instructor.objects.all()
+    inst_ser=InstructorSerializer(instructors,many=True)
     return Response(inst_ser.data)
 
 
 @api_view(['GET'])
-def all_category(request):
-    all_category =Category.objects.all()
-    cat_ser=CategorySerializer(all_category,many=True)
+def category(request):
+    category =Category.objects.all()
+    cat_ser=CategorySerializer(category,many=True)
     return Response(cat_ser.data)
 
 
 
 @api_view(['GET'])
-def all_albumPhotos(request):
-    all_albumPhotos=AlbumPhoto.objects.all()
-    albumPhotos_ser=AlbumPhotoSerializer(all_albumPhotos,many=True)
+def albumPhotos(request):
+    albumPhotos=AlbumPhoto.objects.all()
+    albumPhotos_ser=AlbumPhotoSerializer(albumPhotos,many=True)
     return Response(albumPhotos_ser.data)
 
 @api_view(['GET'])
-def all_albums(request):
-    all_albums = Album.objects.all()
-    album_ser= AlbumSerializer(all_albums,many=True)
+def albums(request):
+    albums = Album.objects.all()
+    album_ser= AlbumSerializer(albums,many=True)
     return Response(album_ser.data)
 
 @api_view(['GET'])
-def all_news(request):
-    all_news= News.objects.all()
-    news_ser= NewsSerializer(all_news,many=True)
+def news(request):
+    news= News.objects.all()
+    news_ser= NewsSerializer(news,many=True)
     return Response(news_ser.data)
 
-def all_newsPhoto(request):
-    all_newsPhoto= NewsPhoto.objects.all()
-    newsPhoto_ser= NewsPhotoSerializer(all_newsPhoto,many=True)
+def newsPhoto(request):
+    newsPhoto= NewsPhoto.objects.all()
+    newsPhoto_ser= NewsPhotoSerializer(newsPhoto,many=True)
     return Response(newsPhoto_ser.data)
 
 
 
 
 @api_view(['GET'])
-def all_collections(request):
-    all_collections= Collection.objects.all()
-    col_ser= Collectionerializer(all_collections,many=True)
+def collections(request):
+    collections= Collection.objects.all()
+    col_ser= Collectionerializer(collections,many=True)
     return Response(col_ser.data)
