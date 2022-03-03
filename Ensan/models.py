@@ -73,6 +73,10 @@ class News(models.Model):
         return self.title
 
 
+
+
+
+
 # Collection
 class Collection(models.Model):
     name = models.CharField(max_length = 50, null = False)

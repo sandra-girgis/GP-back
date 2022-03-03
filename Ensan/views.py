@@ -55,10 +55,7 @@ def news(request):
     news_ser= NewsSerializer(news,many=True)
     return Response(news_ser.data)
 
-def newsPhoto(request):
-    newsPhoto= NewsPhoto.objects.all()
-    newsPhoto_ser= NewsPhotoSerializer(newsPhoto,many=True)
-    return Response(newsPhoto_ser.data)
+
 
 
 

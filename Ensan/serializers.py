@@ -32,6 +32,11 @@ class NewsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 # ('title','content','date','Category_ID')
 
+
+
+
+
+
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection

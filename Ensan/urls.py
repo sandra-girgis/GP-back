@@ -9,7 +9,6 @@ urlpatterns = [
     path('albumPhotos',views.albumPhotos,name='albumPhotos'),
     path('albums',views.albums,name='albums'),
     path('news',views.news,name='news'),
-    path('newsPhoto',views.newsPhoto,name='newsPhoto'),
     path('collections',views.collections,name='collections'),
 
 
