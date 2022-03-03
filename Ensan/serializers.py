@@ -6,3 +6,9 @@ class ClassSerializer(serializers.ModelSerializer):
         model = Class
         fields = '__all__'
         #('id','fname','lname','age','student_track')
+
+class ClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Class
+        fields = '__all__'
+        #('id','fname','lname','age','student_track')

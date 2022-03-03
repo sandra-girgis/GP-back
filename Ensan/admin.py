@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from .models import *
 
 """" Admin panel 
@@ -29,17 +30,21 @@ class CollectionAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ['name']
 
-class StudentAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ['Student Details',{'fields':['username','email','password','phoneNumber']}],
+class StudentAdmin(UserAdmin):
+    add_fieldsets = (
+        (None, {
+            'fields': ('username','email', 'password1','password2','is_staff','phoneNumber')
+        }),
     )
-    list_display = ('username','email','password','phoneNumber')
-    search_fields = ['username','email','password','phoneNumber']
+    list_display = ('username','email','password','is_staff','phoneNumber')
+    search_fields = ['username','email','password','is_staff','phoneNumber']
 
-class InstructorAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ['Instructor Details',{'fields':['username','email','password','phoneNumber',
-    'salary' ,'picture' ,'bio']}],)
+class InstructorAdmin(UserAdmin):
+    add_fieldsets = (
+        (None, {
+            'fields': ('username','email','password1','password2','is_staff','phoneNumber','salary' ,'picture' ,'bio')
+        }),
+    )
     list_display = ('username','email','password','salary' ,'phoneNumber','picture' ,'bio')
     search_fields = ['username','email','password','salary' ,'phoneNumber','picture' ,'bio']
 
@@ -59,15 +64,9 @@ class AttendAdmin(admin.ModelAdmin):
 
 class NewsAdmin(admin.ModelAdmin):
     fieldsets = (
-        ['News Details',{'fields':['title','content','date','Category_ID']}],
+        ['News Details',{'fields':['title','content','date','picture','Category_ID']}],
     )
-    list_display = ('title','content','date','Category_ID')
-
-class NewsPhotoAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ['NewsPhoto Details',{'fields':['picture','News_ID']}],
-    )
-    list_display = ('picture','News_ID')
+    list_display = ('title','content','date','picture','Category_ID')
 
 class AlbumAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -85,7 +84,6 @@ admin.site.register(Student,StudentAdmin)
 admin.site.register(Instructor,InstructorAdmin)
 admin.site.register(Class,ClassAdmin)
 admin.site.register(Attend,AttendAdmin)
-admin.site.register(NewsPhoto,NewsPhotoAdmin)
 admin.site.register(News,NewsAdmin)
 admin.site.register(Album,AlbumAdmin)
 admin.site.register(AlbumPhoto,AlbumPhotoAdmin)
