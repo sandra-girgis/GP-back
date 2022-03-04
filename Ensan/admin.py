@@ -58,9 +58,9 @@ class ClassAdmin(admin.ModelAdmin):
 
 class AttendAdmin(admin.ModelAdmin):
     fieldsets = (
-        ['Attend Details',{'fields':['paymentStatus','Student_ID','Category_ID']}],
+        ['Attend Details',{'fields':['paymentStatus','Student_ID','Class_ID']}],
     )
-    list_display = ('paymentStatus','Student_ID','Category_ID')
+    list_display = ('paymentStatus','Student_ID','Class_ID')
 
 class NewsAdmin(admin.ModelAdmin):
     fieldsets = (

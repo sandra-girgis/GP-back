@@ -62,7 +62,7 @@ class Class(models.Model):
 class Attend(models.Model):
     paymentStatus =  models.BooleanField(default=False)
     Student_ID= models.ForeignKey(Student, on_delete=models.CASCADE)
-    Category_ID= models.ForeignKey(Category, on_delete=models.CASCADE)
+    Class_ID= models.ForeignKey(Class, on_delete=models.CASCADE)
     paymentStatus.boolean = True
 
 
