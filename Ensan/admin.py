@@ -34,6 +34,7 @@ class StudentAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'fields': ('username','email', 'password1','password2','is_staff','phoneNumber')
+            # AttendAdmin.paymentStatus
         }),
     )
     list_display = ('username','email','password','is_staff','phoneNumber')

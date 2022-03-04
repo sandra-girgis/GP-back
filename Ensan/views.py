@@ -20,7 +20,6 @@ def students(request):
     st_ser = StudentSerializer(students,many=True)
     return Response(st_ser.data)
 
-
 ############################
 @api_view(['GET'])
 def instructors(request):
