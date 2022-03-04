@@ -63,5 +63,5 @@ def news(request):
 @api_view(['GET'])
 def collections(request):
     collections= Collection.objects.all()
-    col_ser= Collectionerializer(collections,many=True)
+    col_ser= CollectionSerializer(collections,many=True)
     return Response(col_ser.data)
