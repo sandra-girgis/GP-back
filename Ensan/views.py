@@ -59,5 +59,21 @@ def collections(request):
     collections= Collection.objects.all()
     col_ser= CollectionSerializer(collections,many=True)
     return Response(col_ser.data)
+######################################
 
 
+# @api_view(['GET'])
+# def api_student_details(request,st_id):
+#     all_st = Student.objects.get(id=st_id)
+#     sr_serializer = StudentSerializer(all_st, many=False)
+#     return Response(sr_serializer.data)
+
+
+
+#colid= collection id ,, Aid=album id  
+@api_view(['GET'])
+def albumPhotosnew(request,colid,Aid):
+    albumPhotos=AlbumPhoto.objects.filter(Album_ID=Aid)
+    newAlbum = albumPhotos.filter(Album_ID__Collection_ID=colid)
+    newalbumPhotos_ser=PhotoSerializer(newAlbum,many=True)
+    return Response(newalbumPhotos_ser.data)

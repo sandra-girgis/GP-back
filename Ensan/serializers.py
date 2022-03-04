@@ -35,7 +35,10 @@ class NewsSerializer(serializers.ModelSerializer):
 
 
 
-
+class PhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlbumPhoto
+        fields = '__all__'
 
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
