@@ -10,6 +10,9 @@ class Person(AbstractUser):
 class Student(Person):
     def __str__(self):
         return self.username
+    class Meta:
+        verbose_name = 'Student'
+        verbose_name_plural = 'Students'
 
 # Instructor
 class Instructor(Person):
@@ -18,12 +21,18 @@ class Instructor(Person):
     bio = models.TextField(max_length = 2000, null = False)
     def __str__(self):
         return self.username
+    class Meta:
+        verbose_name = 'Instructor'
+        verbose_name_plural = 'Instructors'
 
 # Category
 class Category(models.Model):
     name = models.CharField(max_length = 50, null = False)
     def __str__(self):
         return self.name
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
 # Class
 DAYS_OF_WEEK = (
@@ -45,6 +54,9 @@ class Class(models.Model):
     Instructor_ID= models.ForeignKey(Instructor, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
+    class Meta:
+        verbose_name = 'Class'
+        verbose_name_plural = 'Classes'
 
 # Attend
 class Attend(models.Model):
@@ -71,6 +83,9 @@ class News(models.Model):
     Category_ID= models.ForeignKey(Category, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
+    class Meta:
+        verbose_name = 'News'
+        verbose_name_plural = 'News'
 
 
 
