@@ -24,7 +24,7 @@ def students(request):
 ############################
 @api_view(['GET'])
 def instructors(request):
-    instructor=Instructor.objects.all()
+    instructors=Instructor.objects.all()
     inst_ser=InstructorSerializer(instructors,many=True)
     return Response(inst_ser.data)
 
@@ -54,10 +54,6 @@ def news(request):
     news= News.objects.all()
     news_ser= NewsSerializer(news,many=True)
     return Response(news_ser.data)
-
-
-
-
 
 
 @api_view(['GET'])
