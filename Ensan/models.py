@@ -87,11 +87,6 @@ class News(models.Model):
         verbose_name = 'News'
         verbose_name_plural = 'News'
 
-
-
-
-
-
 # Collection
 class Collection(models.Model):
     name = models.CharField(max_length = 50, null = False)
@@ -117,3 +112,5 @@ def get_upload_path2(instance, filename):
 class AlbumPhoto(models.Model):
     Album_ID= models.ForeignKey(Album, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to=get_upload_path2)
+
+
