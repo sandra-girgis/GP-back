@@ -5,7 +5,12 @@ class ClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = Class
         fields = '__all__'
-        #('id','fname','lname','age','student_track')
+
+    def to_representation(self, instance):
+        rep = super(ClassSerializer, self).to_representation(instance)
+        rep['Category_ID'] = instance.Category_ID.name
+        rep['Instructor_ID'] = instance.Instructor_ID.username
+        return rep
 
 #how to call attend.paymentstatus in student here
 #  
@@ -30,6 +35,11 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model =News 
         fields = ('id','title','content','date','picture','Category_ID')
+    
+    def to_representation(self, instance):
+        rep = super(NewsSerializer, self).to_representation(instance)
+        rep['Category_ID'] = instance.Category_ID.name
+        return rep
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
