@@ -29,11 +29,7 @@ class AlbumPhotoSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model =News 
-        fields = '__all__'
-# ('title','content','date','Category_ID')
-
-
-
+        fields = ('id','title','content','date','picture','Category_ID')
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
