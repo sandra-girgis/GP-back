@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import *
+from rest_framework.authtoken.models import Token
+
 
 class ClassSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,14 +11,6 @@ class ClassSerializer(serializers.ModelSerializer):
 
 #how to call attend.paymentstatus in student here
 #  
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = ('username','password','email','phoneNumber')
-class InstructorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Instructor
-        fields = '__all__'
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -48,3 +42,32 @@ class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = '__all__'
+   
+
+   ########################omar 
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ('username','password','email','phoneNumber','is_staff')
+        extra_kwargs = {'password':{'write_only':True,'required':True}}
+    def create(self,validated_data):
+        student = Student.objects.create_user(**validated_data)
+        Token.objects.create(user=student)
+        return student
+   
+class InstructorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Instructor
+        fields = ('username','password','email','phoneNumber','is_staff')
+        extra_kwargs = {'password':{'write_only':True,'required':True}}
+    def create(self,validated_data):
+        instructor = Instructor.objects.create_user(**validated_data)
+        Token.objects.create(user=instructor)
+        return instructor
+  
+
+
+# class registerSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Person
+#         fields = ('username','password','email','phoneNumber','is_staff')

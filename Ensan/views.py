@@ -13,19 +13,31 @@ def classes(request):
     return Response(cl_ser.data)
 
 
-@api_view(['GET'])
+
+
+
+@api_view(['GET','POST'])
 def students(request):
-    students = Student.objects.all()
-    st_ser = StudentSerializer(students,many=True)
+    if(request.method =='POST'):
+        st_ser = StudentSerializer(data=request.data)
+        if st_ser.is_valid():
+            st_ser.save()
+        return redirect('students')
+    students= Student.objects.all()
+    st_ser= StudentSerializer(students,many=True)
     return Response(st_ser.data)
 
-############################
-@api_view(['GET'])
-def instructors(request):
-    instructors=Instructor.objects.all()
-    inst_ser=InstructorSerializer(instructors,many=True)
-    return Response(inst_ser.data)
 
+api_view(['GET','POST'])
+def instructors(request):
+    if(request.method =='POST'):
+        inst_ser = InstructorSerializer(data=request.data)
+        if inst_ser.is_valid():
+            inst_ser.save()
+        return redirect('instructors')
+    instructors= Instructor.objects.all()
+    inst_ser= InstructorSerializer(instructors,many=True)
+    return Response(inst_ser.data)
 
 @api_view(['GET'])
 def category(request):
@@ -77,3 +89,68 @@ def albumPhotosnew(request,colid,Aid):
     newAlbum = albumPhotos.filter(Album_ID__Collection_ID=colid)
     newalbumPhotos_ser=PhotoSerializer(newAlbum,many=True)
     return Response(newalbumPhotos_ser.data)
+
+
+
+
+###########################
+# @api_view(['POST'])
+# def api_student_create(request):
+#     sr_serializer = StudentSerializer(data=request.data)
+#     if sr_serializer.is_valid():
+#         sr_serializer.save()
+#     return redirect('api-list')
+
+
+
+
+
+#######################################omar
+# @api_view(['POST','GET'])
+# def register(request):
+#     # create register form
+#     signup_form = registerSerializer()
+#     # if the method post
+#     if(request.method =='POST'):
+#         signup_form = registerSerializer(request.POST)  #input from user
+#         if(signup_form.is_valid()):
+#             # the user is active (not block)
+#             signup_form.save()
+#             # msg = 'User account created for username: ' + signup_form.cleaned_data.get('username')
+#             # messages.info(request, msg)
+#             return redirect('persons')
+#     # if the method not post
+#     return Response(signup_form.data)
+
+
+
+# # Log in page
+# def loginPg(request):
+#     # if the user already logedin
+#     if request.user.is_authenticated:
+#         # return to home
+#         return redirect('home')
+#     else:
+#         # if the method is post (contain data)
+#         if request.method == 'POST':
+#             name = request.POST.get('username')
+#             passwd = request.POST.get('password')
+#             user = authenticate(username= name, password =passwd)
+#             if user is not None:
+#                 login(request, user)
+#                 return redirect('home')
+#             else:
+#                 # show error massage if user name or password was incorrect
+#                 messages.info(request, 'User name or password is incorrect')
+#         # go to login if :
+#         # user not authenticated or the name or password not correct
+#         return render(request, 'djapp/login.html')
+
+
+
+
+
+# # Sign out function
+# def signoutPg(request):
+#     logout(request)
+#     return redirect('home')
