@@ -11,4 +11,4 @@ from .serializers import *
 def all_classes(request):
     all_classes = Class.objects.all()
     cl_ser = ClassSerializer(all_classes,many=True)
-    return Response(cl_ser.data)
+    return Response(cl_ser.data)  
