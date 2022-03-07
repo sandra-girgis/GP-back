@@ -67,3 +67,15 @@ def albumPhotosnew(request,colid,Aid):
     newAlbum = albumPhotos.filter(Album_ID__Collection_ID=colid)
     newalbumPhotos_ser=PhotoSerializer(newAlbum,many=True)
     return Response(newalbumPhotos_ser.data)
+
+    
+@api_view(['GET','POST'])
+def persons(request):
+    if(request.method =='POST'):
+        per_ser = PersonSerializer(data=request.data)
+        if per_ser.is_valid():
+            per_ser.save()
+        return redirect('persons')
+    person= Person.objects.all()
+    per_ser= PersonSerializer(person,many=True)
+    return Response(per_ser.data)
