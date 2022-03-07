@@ -105,7 +105,7 @@ def albumPhotosnew(request,colid,Aid):
 
 
 
-#######################################omar
+##############omar
 # @api_view(['POST','GET'])
 # def register(request):
 #     # create register form
@@ -150,7 +150,7 @@ def albumPhotosnew(request,colid,Aid):
 
 
 
-# # Sign out function
+# Sign out function
 # def signoutPg(request):
 #     logout(request)
 #     return redirect('home')

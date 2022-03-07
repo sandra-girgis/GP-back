@@ -19,8 +19,6 @@ urlpatterns = [
 
     # path('api-del/<st_id>', views.api_del_student,name='api-del'),
 
-###############################
-
     # path('register',views.register,name='register'),
 
 ]
