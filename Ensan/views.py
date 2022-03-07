@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
-from django.http import HttpResponse
 from .models import *
+from .serializers import *
+from rest_framework import viewsets
+from django.http import HttpResponse
+from django.shortcuts import render,redirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import *
-
 
 @api_view(['GET'])
 def classes(request):
@@ -32,8 +32,6 @@ def category(request):
     category =Category.objects.all()
     cat_ser=CategorySerializer(category,many=True)
     return Response(cat_ser.data)
-
-
 
 @api_view(['GET'])
 def albumPhotos(request):
@@ -67,3 +65,7 @@ def albumPhotosnew(request,colid,Aid):
     newAlbum = albumPhotos.filter(Album_ID__Collection_ID=colid)
     newalbumPhotos_ser=PhotoSerializer(newAlbum,many=True)
     return Response(newalbumPhotos_ser.data)
+
+class persons(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
