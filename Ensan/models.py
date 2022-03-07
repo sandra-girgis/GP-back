@@ -6,7 +6,7 @@ import os
 
 #Student
 class Person(AbstractUser):
-    phoneNumber = models.CharField(max_length=11)
+    phoneNumber = models.CharField(max_length=11,null=True)
 
 class Student(Person):
     def __str__(self):

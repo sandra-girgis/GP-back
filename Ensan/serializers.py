@@ -2,12 +2,26 @@ from rest_framework import serializers
 from .models import *
 from rest_framework.authtoken.models import Token
 
+class PersonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = ('username','password','email','phoneNumber','is_staff')
+        # extra_kwargs = {'password':{'write_only':True,'required':True}}
+    def create(self,validated_data):
+        person = Person.objects.create_user(**validated_data)
+        Token.objects.create(user=person)
+        return person
 
 class ClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = Class
         fields = '__all__'
-        #('id','fname','lname','age','student_track')
+
+    def to_representation(self, instance):
+        rep = super(ClassSerializer, self).to_representation(instance)
+        rep['Category_ID'] = instance.Category_ID.name
+        rep['Instructor_ID'] = instance.Instructor_ID.username
+        return rep
 
 #how to call attend.paymentstatus in student here
 #  
@@ -23,11 +37,12 @@ class AlbumPhotoSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model =News 
-        fields = '__all__'
-# ('title','content','date','Category_ID')
-
-
-
+        fields = ('id','title','content','date','picture','Category_ID')
+    
+    def to_representation(self, instance):
+        rep = super(NewsSerializer, self).to_representation(instance)
+        rep['Category_ID'] = instance.Category_ID.name
+        return rep
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,7 +69,6 @@ class StudentSerializer(serializers.ModelSerializer):
         student = Student.objects.create_user(**validated_data)
         Token.objects.create(user=student)
         return student
-   
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
@@ -64,7 +78,6 @@ class InstructorSerializer(serializers.ModelSerializer):
         instructor = Instructor.objects.create_user(**validated_data)
         Token.objects.create(user=instructor)
         return instructor
-  
 
 
 # class registerSerializer(serializers.ModelSerializer):
