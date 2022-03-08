@@ -25,14 +25,28 @@ class ClassSerializer(serializers.ModelSerializer):
 
 #how to call attend.paymentstatus in student here
 #  
+###########################
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('username','password','email','phoneNumber')
+        fields = ('username','password','email','phoneNumber','is_staff')
+        # extra_kwargs = {'password':{'write_only':True,'required':True}}
+    def create(self,validated_data):
+        student = Student.objects.create_user(**validated_data)
+        Token.objects.create(user=student)
+        return student
+    
+#####################
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
-        fields = '__all__'
+        fields = ('username','password','email','phoneNumber','is_staff')
+        # extra_kwargs = {'password':{'write_only':True,'required':True}}
+    def create(self,validated_data):
+        instructor = Instructor.objects.create_user(**validated_data)
+        Token.objects.create(user=instructor)
+        return instructor
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

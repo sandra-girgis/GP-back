@@ -13,18 +13,18 @@ def classes(request):
     return Response(cl_ser.data)
 
 
-@api_view(['GET'])
-def students(request):
-    students = Student.objects.all()
-    st_ser = StudentSerializer(students,many=True)
-    return Response(st_ser.data)
+# @api_view(['GET'])
+# def students(request):
+#     students = Student.objects.all()
+#     st_ser = StudentSerializer(students,many=True)
+#     return Response(st_ser.data)
 
 ############################
-@api_view(['GET'])
-def instructors(request):
-    instructors=Instructor.objects.all()
-    inst_ser=InstructorSerializer(instructors,many=True)
-    return Response(inst_ser.data)
+# @api_view(['GET'])
+# def instructors(request):
+#     instructors=Instructor.objects.all()
+#     inst_ser=InstructorSerializer(instructors,many=True)
+#     return Response(inst_ser.data)
 
 
 @api_view(['GET'])
@@ -69,3 +69,11 @@ def albumPhotosnew(request,colid,Aid):
 class persons(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    
+class students(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    
+class instructors(viewsets.ModelViewSet):
+    queryset = Instructor.objects.all()
+    serializer_class = InstructorSerializer
