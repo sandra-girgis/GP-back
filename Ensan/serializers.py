@@ -82,7 +82,6 @@ class ClassSerializer(serializers.ModelSerializer):
         model = Class
         fields = '__all__'
 
-
     def to_representation(self, instance):
         rep = super(ClassSerializer, self).to_representation(instance)
         rep['Category_ID'] = instance.Category_ID.name
