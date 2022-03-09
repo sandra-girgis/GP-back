@@ -10,6 +10,7 @@ router.register('persons',persons)
 router.register('instructors', instructors)
 router.register('category',category)
 router.register('news',news)
+router.register('collections',collections)
 urlpatterns = [
     path('',include(router.urls)),
 ]
