@@ -24,3 +24,13 @@ class PersonSerializer(serializers.ModelSerializer):
         person = Person.objects.create_user(**validated_data)
         Token.objects.create(user=person)
         return person
+
+class InstructorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Instructor
+        fields = ('username','password','email','phoneNumber','is_staff')
+        extra_kwargs = {'password':{'write_only':True,'required':True}}
+    def create(self,validated_data):
+        instructor = Instructor.objects.create_user(**validated_data)
+        Token.objects.create(user=instructor)
+        return instructor

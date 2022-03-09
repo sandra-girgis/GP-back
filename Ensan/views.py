@@ -15,4 +15,8 @@ class persons(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
 
+class instructors(viewsets.ModelViewSet):
+    queryset = Instructor.objects.all()
+    serializer_class = InstructorSerializer    
+
 
