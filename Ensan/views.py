@@ -1,79 +1,41 @@
+from django.contrib.auth.models import AbstractUser
+from django.http import HttpResponse, request
+from django.shortcuts import redirect, render
+from rest_framework.decorators import api_view
+from rest_framework import request, status, viewsets
+
 from .models import *
 from .serializers import *
-from rest_framework import viewsets
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
-@api_view(['GET'])
-def classes(request):
-    classes = Class.objects.all()
-    cl_ser = ClassSerializer(classes,many=True)
-    return Response(cl_ser.data)
-
-
-# @api_view(['GET'])
-# def students(request):
-#     students = Student.objects.all()
-#     st_ser = StudentSerializer(students,many=True)
-#     return Response(st_ser.data)
-
-############################
-# @api_view(['GET'])
-# def instructors(request):
-#     instructors=Instructor.objects.all()
-#     inst_ser=InstructorSerializer(instructors,many=True)
-#     return Response(inst_ser.data)
-
-
-@api_view(['GET'])
-def category(request):
-    category =Category.objects.all()
-    cat_ser=CategorySerializer(category,many=True)
-    return Response(cat_ser.data)
-
-@api_view(['GET'])
-def albumPhotos(request):
-    albumPhotos=AlbumPhoto.objects.all()
-    albumPhotos_ser=AlbumPhotoSerializer(albumPhotos,many=True)
-    return Response(albumPhotos_ser.data)
-
-@api_view(['GET'])
-def albums(request):
-    albums = Album.objects.all()
-    album_ser= AlbumSerializer(albums,many=True)
-    return Response(album_ser.data)
-
-@api_view(['GET'])
-def news(request):
-    news= News.objects.all()
-    news_ser= NewsSerializer(news,many=True)
-    return Response(news_ser.data)
-
-
-@api_view(['GET'])
-def collections(request):
-    collections= Collection.objects.all()
-    col_ser= CollectionSerializer(collections,many=True)
-    return Response(col_ser.data)
-
-#colid= collection id ,, Aid=album id  
-@api_view(['GET'])
-def albumPhotosnew(request,colid,Aid):
-    albumPhotos=AlbumPhoto.objects.filter(Album_ID=Aid)
-    newAlbum = albumPhotos.filter(Album_ID__Collection_ID=colid)
-    newalbumPhotos_ser=PhotoSerializer(newAlbum,many=True)
-    return Response(newalbumPhotos_ser.data)
+class students(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
 class persons(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
-    
-class students(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-    
+
 class instructors(viewsets.ModelViewSet):
     queryset = Instructor.objects.all()
-    serializer_class = InstructorSerializer
+    serializer_class = InstructorSerializer  
+
+class category(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer  
+
+class news(viewsets.ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
+class collections(viewsets.ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+
+class albums(viewsets.ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+class albumPhotos(viewsets.ModelViewSet):
+    queryset = AlbumPhoto.objects.all()
+    serializer_class = AlbumPhotoSerializer
+
