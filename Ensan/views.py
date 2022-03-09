@@ -1,10 +1,8 @@
-from .models import *
-from .serializers import *
-from rest_framework import viewsets
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
-from rest_framework.response import Response
+from django.contrib.auth.models import AbstractUser
+from django.http import HttpResponse, request
+from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
+from rest_framework import request, status, viewsets
 
 """"
     persons

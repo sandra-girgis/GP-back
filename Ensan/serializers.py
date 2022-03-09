@@ -1,7 +1,7 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
 from .models import *
 from rest_framework.authtoken.models import Token
-
+from rest_framework.response import Response
 """"
     persons
 """
@@ -78,9 +78,9 @@ class ClassSerializer(serializers.ModelSerializer):
 """
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
-        model =News 
-        fields = ('id','title','content','date','picture','Category_ID')
-    
+        model = News
+        fields = ('id', 'title', 'content', 'date', 'picture', 'Category_ID')
+
     def to_representation(self, instance):
         rep = super(NewsSerializer, self).to_representation(instance)
         rep['Category_ID'] = instance.Category_ID.name
@@ -90,14 +90,14 @@ class NewsSerializer(serializers.ModelSerializer):
 """
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Collection
+        model = AlbumPhoto
         fields = '__all__'
 """"
     albums all albums (select one album)
 """
 class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Album
+        model = Class
         fields = '__all__'
     def to_representation(self, instance):
         rep = super(AlbumSerializer, self).to_representation(instance)

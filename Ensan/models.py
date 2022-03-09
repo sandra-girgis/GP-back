@@ -103,7 +103,7 @@ class Album(models.Model):
 """"
     albumPhotos
 """
-def get_upload_path2(instance, filename):
+def get_upload_path2(instance,filename):
     """ creates unique-Path & filename for upload """
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (instance.Album_ID.id, ext)
