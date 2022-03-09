@@ -20,7 +20,7 @@ class PersonSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('username','password','email','phoneNumber','is_staff','attend')
+        fields = ('id','username','password','email','phoneNumber','is_staff','attend')
         extra_kwargs = {'password':{'write_only':True,'required':True},
                         'attend':{'required':False}}
     def create(self,validated_data):
@@ -41,7 +41,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
-        fields = ('username','password','email','phoneNumber','is_staff','classinfo')
+        fields = ('id','username','password','email','phoneNumber','is_staff','classinfo')
         extra_kwargs = {'password':{'write_only':True,'required':True},
                         'classinfo':{'required':False}}
     def create(self,validated_data):
