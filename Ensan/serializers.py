@@ -76,3 +76,16 @@ class AlbumPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlbumPhoto
         fields = '__all__'
+
+class ClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Class
+        fields = '__all__'
+
+
+    def to_representation(self, instance):
+        rep = super(ClassSerializer, self).to_representation(instance)
+        rep['Category_ID'] = instance.Category_ID.name
+        rep['Instructor_ID'] = instance.Instructor_ID.username
+        return rep
+
