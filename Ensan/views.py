@@ -42,3 +42,10 @@ class albumPhotos(viewsets.ModelViewSet):
 class Class(viewsets.ModelViewSet):
     queryset = Class.objects.all()
     serializer_class = ClassSerializer    
+
+@api_view(['GET'])
+def albumPhotosnew(request,Aid):
+    albumPhotos=AlbumPhoto.objects.filter(Album_ID=Aid).all()
+    # newAlbum = albumPhotos.filter(Album_ID__Collection_ID=colid)
+    newalbumPhotos_ser=PhotoSerializer(albumPhotos,many=True)
+    return Response(newalbumPhotos_ser.data)
