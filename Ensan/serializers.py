@@ -72,4 +72,7 @@ class PhotoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+class AlbumPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlbumPhoto
+        fields = '__all__'
