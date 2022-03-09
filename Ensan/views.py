@@ -21,6 +21,11 @@ class instructors(viewsets.ModelViewSet):
 
 class category(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer      
+    serializer_class = CategorySerializer  
+
+class news(viewsets.ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
 
 

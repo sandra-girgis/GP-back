@@ -39,3 +39,15 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+
+class NewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = News
+        fields = ('id', 'title', 'content', 'date', 'picture', 'Category_ID')
+
+    def to_representation(self, instance):
+        rep = super(NewsSerializer, self).to_representation(instance)
+        rep['Category_ID'] = instance.Category_ID.name
+        return rep
+
