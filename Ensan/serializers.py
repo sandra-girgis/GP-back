@@ -21,7 +21,8 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ('username','password','email','phoneNumber','is_staff','attend')
-        extra_kwargs = {'password':{'write_only':True,'required':True}}
+        extra_kwargs = {'password':{'write_only':True,'required':True},
+                        'attend':{'required':False}}
     def create(self,validated_data):
         student = Student.objects.create_user(**validated_data)
         Token.objects.create(user=student)
@@ -41,7 +42,8 @@ class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
         fields = ('username','password','email','phoneNumber','is_staff','classinfo')
-        extra_kwargs = {'password':{'write_only':True,'required':True}}
+        extra_kwargs = {'password':{'write_only':True,'required':True},
+                        'classinfo':{'required':False}}
     def create(self,validated_data):
         instructor = Instructor.objects.create_user(**validated_data)
         Token.objects.create(user=instructor)

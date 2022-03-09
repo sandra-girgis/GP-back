@@ -5,6 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework import request, status, viewsets
 from .models import *
 from .serializers import *
+############
+from rest_framework.authentication import BasicAuthentication , TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 """"
     persons
@@ -12,12 +15,16 @@ from .serializers import *
 class persons(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
 """"
     students
 """
 class students(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
 """"
     instructors
 """
