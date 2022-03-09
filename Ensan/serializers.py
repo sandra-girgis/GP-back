@@ -61,7 +61,11 @@ class CollectionSerializer(serializers.ModelSerializer):
 class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
-        fields = '__all__'        
+        fields = '__all__'
+    def to_representation(self, instance):
+        rep = super(AlbumSerializer, self).to_representation(instance)
+        rep['Collection_ID'] = instance.Collection_ID.name
+        return rep       
 
 
 
