@@ -27,7 +27,6 @@ class news(viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
 
-       
 class collections(viewsets.ModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
@@ -35,3 +34,8 @@ class collections(viewsets.ModelViewSet):
 class albums(viewsets.ModelViewSet):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
+
+class albumPhotos(viewsets.ModelViewSet):
+    queryset = AlbumPhoto.objects.all()
+    serializer_class = AlbumPhotoSerializer
+

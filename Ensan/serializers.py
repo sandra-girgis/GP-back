@@ -52,9 +52,6 @@ class NewsSerializer(serializers.ModelSerializer):
         return rep
 
  
-
-
-
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
@@ -65,3 +62,14 @@ class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = '__all__'        
+
+
+
+
+class PhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlbumPhoto
+        fields = '__all__'
+
+
+
