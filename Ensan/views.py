@@ -3,6 +3,8 @@ from django.http import HttpResponse, request
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework import request, status, viewsets
+from .models import *
+from .serializers import *
 
 """"
     persons
