@@ -6,6 +6,7 @@ from django.conf.urls import include
 
 router = routers.DefaultRouter()
 router.register('students',students)
+router.register('persons',persons)
 
 urlpatterns = [
     path('',include(router.urls)),
