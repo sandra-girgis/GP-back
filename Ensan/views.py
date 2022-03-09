@@ -27,14 +27,11 @@ class news(viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
 
-class CollectionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Collection
-        fields = '__all__'
+       
+class collections(viewsets.ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
 
-
-class AlbumSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Album
-        fields = '__all__'        
-
+class albums(viewsets.ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer

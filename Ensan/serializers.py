@@ -51,11 +51,17 @@ class NewsSerializer(serializers.ModelSerializer):
         rep['Category_ID'] = instance.Category_ID.name
         return rep
 
-        
-class collections(viewsets.ModelViewSet):
-    queryset = Collection.objects.all()
-    serializer_class = CollectionSerializer
+ 
 
-class albums(viewsets.ModelViewSet):
-    queryset = Album.objects.all()
-    serializer_class = AlbumSerializer
+
+
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = '__all__'
+
+
+class AlbumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = '__all__'        
