@@ -38,3 +38,7 @@ class albums(viewsets.ModelViewSet):
 class albumPhotos(viewsets.ModelViewSet):
     queryset = AlbumPhoto.objects.all()
     serializer_class = PhotoSerializer
+
+class Class(viewsets.ModelViewSet):
+    queryset = Class.objects.all()
+    serializer_class = ClassSerializer    
