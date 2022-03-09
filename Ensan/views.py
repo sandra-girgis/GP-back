@@ -17,6 +17,10 @@ class persons(viewsets.ModelViewSet):
 
 class instructors(viewsets.ModelViewSet):
     queryset = Instructor.objects.all()
-    serializer_class = InstructorSerializer    
+    serializer_class = InstructorSerializer  
+
+class category(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer      
 
 

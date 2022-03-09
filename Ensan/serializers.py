@@ -34,3 +34,8 @@ class InstructorSerializer(serializers.ModelSerializer):
         instructor = Instructor.objects.create_user(**validated_data)
         Token.objects.create(user=instructor)
         return instructor
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'

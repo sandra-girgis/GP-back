@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register('students',students)
 router.register('persons',persons)
 router.register('instructors', instructors)
+router.register('category',category)
 urlpatterns = [
     path('',include(router.urls)),
 ]
