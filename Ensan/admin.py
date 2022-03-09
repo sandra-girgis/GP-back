@@ -2,21 +2,24 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import *
 
-"""" Admin panel 
+# from .models import Class, Rating
+
+"""" 
+Admin panel 
 
 Keyword arguments:
 model -- take the model 'table' from model.py
 modelAdmin -- take the model that will display in the admin panel
 Return: the admin panel that display when enter localhost:admin
 """
+"""
+custom display
+Args:
+    fieldsets : the display of create category form
+    list_display : the display of the category list
+    search_fields : search fields to custom the list display
+"""
 class CategoryAdmin(admin.ModelAdmin):
-    """custom display
-
-    Args:
-        fieldsets : the display of create category form
-        list_display : the display of the category list
-        search_fields : search fields to custom the list display
-    """
     fieldsets = (
         ['Category Details',{'fields':['name']}],
     )
@@ -50,11 +53,15 @@ class InstructorAdmin(UserAdmin):
 
 class ClassAdmin(admin.ModelAdmin):
     fieldsets = ( 
-        ['Class Details',{'fields':['title', 'content' ,'fromTime','toTime', 'day', 'Category_ID','Instructor_ID'
+        ['Class Details',{'fields':['title', 'content' ,'fromTime','toTime', 'day', 'Category_ID','Instructor_ID',
 ]}],
     )
     list_display = ( 
-'title', 'content' ,'fromTime','toTime', 'day', 'Category_ID','Instructor_ID')
+    'title', 'content' ,'fromTime','toTime', 'day', 'Category_ID','Instructor_ID',)
+    
+
+    search_fields = ['title', 'content']
+    list_filter = ['title', 'content']
 
 class AttendAdmin(admin.ModelAdmin):
     fieldsets = (

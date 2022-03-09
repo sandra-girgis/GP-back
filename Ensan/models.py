@@ -53,11 +53,6 @@ class Class(models.Model):
     day = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
     Category_ID= models.ForeignKey(Category, on_delete=models.CASCADE)
     Instructor_ID= models.ForeignKey(Instructor, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.title
-    class Meta:
-        verbose_name = 'Class'
-        verbose_name_plural = 'Classes'
 
 # Attend
 class Attend(models.Model):

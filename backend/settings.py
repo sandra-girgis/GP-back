@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'Ensan.Person'
 
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -97,6 +98,13 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+
+
+# REST_FRAMEWORK = {
+#             'DEFAULT_PERMISSION_CLASSES': {
+#                 'rest_framework.permissions.IsAuthenticated',
+#             }
+#         }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
