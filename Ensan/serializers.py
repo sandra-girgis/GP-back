@@ -80,6 +80,10 @@ class AlbumPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlbumPhoto
         fields = '__all__'
+    def to_representation(self, instance):
+        rep = super(AlbumPhotoSerializer, self).to_representation(instance)
+        rep['Album_ID'] = instance.Album_ID.name
+        return rep
 
 class ClassSerializer(serializers.ModelSerializer):
     class Meta:
