@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 import os
 
 """"
@@ -16,6 +18,7 @@ class Student(Person):
     class Meta:
         verbose_name = 'Student'
         verbose_name_plural = 'Students'
+        
 """"
     instructors
 """
@@ -63,6 +66,51 @@ class Class(models.Model):
     class Meta:
         verbose_name = 'Class'
         verbose_name_plural = 'Classes'
+    def no_of_ratings(self):
+        ratings = Rating.objects.filter(Class=self)
+        return len(ratings)
+    
+    def avg_rating(self):
+        # sum of ratings stars  / len of rating how many ratings 
+        sum = 0
+        ratings = Rating.objects.filter(Class=self) # no of ratings happened to the class
+
+        for x in ratings:
+            sum += x.stars
+
+        if len(ratings) > 0:
+            avrage_rating=sum / len(ratings)
+
+            return avrage_rating
+        else:
+            return 0
+
+    def __str__(self):
+        return self.title
+
+
+
+
+
+""""
+    Rating
+"""
+
+
+class Rating(models.Model):
+    Class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE)
+    stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
+    # Student_ID= models.ForeignKey(Student, on_delete=models.CASCADE)
+    avrage_rating =models.FloatField(default=0)
+
+    def __str__(self):
+        return str(self.Class)
+
+            #USER CAN'T rate the same class 2 times 
+    class Meta:
+        unique_together = (('user', 'Class'),)
+        index_together = (('user', 'Class'),)
 """"
     news
 """

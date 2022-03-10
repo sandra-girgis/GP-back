@@ -76,6 +76,14 @@ class ClassSerializer(serializers.ModelSerializer):
         rep['Instructor_ID'] = instance.Instructor_ID.username
         return rep
 """"
+    ratings
+"""
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'stars', 'user', 'Class') 
+
+""""
     news
 """
 class NewsSerializer(serializers.ModelSerializer):

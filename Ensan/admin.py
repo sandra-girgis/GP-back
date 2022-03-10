@@ -85,6 +85,11 @@ class AlbumPhotoAdmin(admin.ModelAdmin):
     )
     list_display = ('picture','Album_ID') 
 
+class RatingAdmin(admin.ModelAdmin):
+
+    list_display = ['id','Class', 'user', 'stars']
+    list_filter = ['Class', 'user']    
+
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Collection,CollectionAdmin)
 admin.site.register(Student,StudentAdmin)
@@ -94,3 +99,4 @@ admin.site.register(Attend,AttendAdmin)
 admin.site.register(News,NewsAdmin)
 admin.site.register(Album,AlbumAdmin)
 admin.site.register(AlbumPhoto,AlbumPhotoAdmin)
+admin.site.register(Rating, RatingAdmin)
