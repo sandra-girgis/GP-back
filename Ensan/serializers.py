@@ -9,7 +9,7 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = ('username','password','email','phoneNumber','is_staff')
-        extra_kwargs = {'password':{'write_only':True,'required':True}}
+        # extra_kwargs = {'password':{'write_only':True,'required':True}}
     def create(self,validated_data):
         person = Person.objects.create_user(**validated_data)
         Token.objects.create(user=person)
@@ -33,7 +33,14 @@ class StudentSerializer(serializers.ModelSerializer):
         att = Attend.objects.filter(Student_ID=instance.id).all()
         rep['attend']=[]
         for i in att:
-            rep['attend'].append({"PaymentStatus":i.paymentStatus,"ClassName":i.Class_ID.title})
+            rep['attend'].append({"PaymentStatus":i.paymentStatus,
+                                "ClassName":i.Class_ID.title,
+                                "content":i.Class_ID.content,
+                                "from":i.Class_ID.fromTime,
+                                "to":i.Class_ID.toTime,
+                                "day":i.Class_ID.day,
+                                "CategoryName":i.Class_ID.Category_ID.name,
+                                })
         return rep
 """"
     instructors
@@ -41,7 +48,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
-        fields = ('id','username','password','email','phoneNumber','is_staff','classinfo')
+        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff','classinfo')
         extra_kwargs = {'password':{'write_only':True,'required':True},
                         'classinfo':{'required':False}}
     def create(self,validated_data):
@@ -53,7 +60,13 @@ class InstructorSerializer(serializers.ModelSerializer):
         att = Class.objects.filter(Instructor_ID=instance.id).all()
         rep['classinfo']=[]
         for i in att:
-            rep['classinfo'].append({"ClassName":i.title,"CategoryName":i.Category_ID.name})
+            rep['classinfo'].append({"ClassId":i.id,
+                                    "ClassName":i.title,
+                                    "content":i.content,
+                                    "from":i.fromTime,
+                                    "to":i.toTime,
+                                    "day":i.day,
+                                    "CategoryName":i.Category_ID.name})
         return rep
 """"
     Category
