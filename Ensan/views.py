@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.http import HttpResponse, request
 from django.shortcuts import redirect, render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view , action
 from rest_framework import request, status, viewsets
 from .models import *
 from .serializers import *
@@ -76,3 +76,23 @@ def albumPhotosnew(request,Aid):
     albumPhotos=AlbumPhoto.objects.filter(Album_ID=Aid).all()
     newalbumPhotos_ser=PhotoSerializer(albumPhotos,many=True)
     return Response(newalbumPhotos_ser.data)
+
+
+# @action(methods=['put'], detail=True)
+# def change_password(self, request, pk):
+#     serializer = PasswordSerializer(data=request.data)
+#     if serializer.is_valid():
+#         user = get_object_or_404(User, pk=pk)
+#         if user != request.user:
+#             return Response({'error': "Cannot change other user's password"},
+#                             status=status.HTTP_403_FORBIDDEN)
+#         else:
+#             if not user.check_password(serializer.data.get('old_password')):
+#                 return Response({'old_password': ['Wrong password.']},
+#                                 status=status.HTTP_400_BAD_REQUEST)
+#             user.set_password(request.POST.get('new_password'))
+#             user.save()
+#     else:
+#         return Response(serializer.errors,
+#                         status=status.HTTP_400_BAD_REQUEST)
+#     return Response({'details': 'Success'}, status=status.HTTP_200_OK)

@@ -20,5 +20,7 @@ urlpatterns = [
     path('',include(router.urls)),
     path('albumphotonew/<int:Aid>',views.albumPhotosnew,name='albumPhotonew'),
     path('api-auth',include('rest_framework.urls')),
-    path('authtoken/', obtain_auth_token)
+    path('authtoken/', obtain_auth_token),
+    # path('change_password/<int:pk>',views.change_password,name='change_password'),
+    
 ]

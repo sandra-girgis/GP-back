@@ -21,7 +21,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ('id','username','password','email','phoneNumber','is_staff','attend')
-        extra_kwargs = {'password':{'write_only':True,'required':True},
+        extra_kwargs = {'password':{'write_only':False,'required':True},
                         'attend':{'required':False}}
     def create(self,validated_data):
         student = Student.objects.create_user(**validated_data)
@@ -49,7 +49,7 @@ class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
         fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff','classinfo')
-        extra_kwargs = {'password':{'write_only':True,'required':True},
+        extra_kwargs = {'password':{'write_only':False,'required':True},
                         'classinfo':{'required':False}}
     def create(self,validated_data):
         instructor = Instructor.objects.create_user(**validated_data)
@@ -141,3 +141,10 @@ class PhotoSerializer(serializers.ModelSerializer):
             rep = super(PhotoSerializer, self).to_representation(instance)
             rep['Album_ID'] = instance.Album_ID.name
             return rep
+
+# class PasswordSerializer(serializers.Serializer):
+#     """
+#     Serializer for password change endpoint.
+#     """
+#     old_password = serializers.CharField(required=True)
+#     new_password = serializers.CharField(required=True)
