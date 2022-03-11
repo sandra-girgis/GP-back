@@ -61,6 +61,15 @@ class collections(viewsets.ModelViewSet):
 class albums(viewsets.ModelViewSet):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
+    
+##############
+@api_view(['GET'])
+def albumsnew(request,cid):
+    album=Album.objects.filter(Collection_ID=cid).all()
+    newalbum_ser=AlbumnewSerializer(album,many=True)
+    return Response(newalbum_ser.data)
+    
+##############
 """"
     albumPhotos may be delete all photos (select one photo)
 """

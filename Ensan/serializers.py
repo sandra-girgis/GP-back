@@ -94,7 +94,7 @@ class ClassSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ('id', 'title', 'content', 'date', 'picture', 'Category_ID')
+        fields = ('id', 'title', 'date','content', 'picture', 'Category_ID')
 
     def to_representation(self, instance):
         rep = super(NewsSerializer, self).to_representation(instance)
@@ -105,19 +105,30 @@ class NewsSerializer(serializers.ModelSerializer):
 """
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AlbumPhoto
+        model = Collection
         fields = '__all__'
 """"
     albums all albums (select one album)
 """
 class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Class
+        model = Album
         fields = '__all__'
     def to_representation(self, instance):
         rep = super(AlbumSerializer, self).to_representation(instance)
         rep['Collection_ID'] = instance.Collection_ID.name
         return rep
+
+########################
+class AlbumnewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = '__all__'
+    def to_representation(self, instance):
+        rep = super(AlbumnewSerializer, self).to_representation(instance)
+        rep['Collection_ID'] = instance.Collection_ID.name
+        return rep
+#######################
 """"
     albumPhotos may be delete all photos (select one photo)
 """

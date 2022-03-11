@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
-
+import datetime
 """"
     persons
 """
@@ -77,7 +77,7 @@ def get_upload_path(instance, filename):
 class News(models.Model):
     title = models.CharField(max_length = 100, null = False)
     content = models.TextField(max_length = 4000, null = False)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=datetime.datetime.now())
     picture = models.ImageField(upload_to=get_upload_path)
     Category_ID= models.ForeignKey(Category,related_name="newscategory", on_delete=models.CASCADE)
     def __str__(self):
