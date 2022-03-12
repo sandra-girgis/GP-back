@@ -48,8 +48,8 @@ class InstructorAdmin(UserAdmin):
             'fields': ('username','email','password1','password2','is_staff','phoneNumber','salary' ,'picture' ,'bio')
         }),
     )
-    list_display = ('username','email','password','salary' ,'phoneNumber','picture' ,'bio')
-    search_fields = ['username','email','password','salary' ,'phoneNumber','picture' ,'bio']
+    list_display = ('username','email','password','salary' ,'phoneNumber','picture' ,'bio','Stars','Review')
+    search_fields = ['username','email','password','salary' ,'phoneNumber','picture' ,'bio','Stars','Review']
 
 class ClassAdmin(admin.ModelAdmin):
     fieldsets = ( 
@@ -86,9 +86,11 @@ class AlbumPhotoAdmin(admin.ModelAdmin):
     list_display = ('picture','Album_ID') 
 
 class RatingAdmin(admin.ModelAdmin):
+    fieldsets = (['Rating Details',{'fields':['Student', 'Instructor','Stars','Review']}],)
 
-    list_display = ['id','Class', 'user', 'stars']
-    list_filter = ['Class', 'user']    
+    list_display = ['id', 'Student','Instructor','Stars','Review']
+
+    list_filter =  ['Instructor']
 
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Collection,CollectionAdmin)

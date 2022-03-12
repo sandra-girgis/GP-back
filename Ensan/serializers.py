@@ -81,7 +81,7 @@ class ClassSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ('id', 'stars', 'user', 'Class') 
+        fields = ('id','Instructor', 'Student', 'Stars','no_of_ratings','avg_rating') 
 
 """"
     news

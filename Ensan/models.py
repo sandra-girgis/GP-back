@@ -22,15 +22,48 @@ class Student(Person):
 """"
     instructors
 """
+def no_of_ratings(self):
+        Instructor = apps.get_model(app_label='Ensan', model_name='Instructor')
+        ratings = Rating.objects.filter(Instructor=self)
+        return len(ratings)
+        # return Instructor.objects.filter(status='A').count() * Instructor.DEFAULT_VALUE
+
+def avg_rating(self):
+        Instructor = apps.get_model(app_label='Ensan', model_name='Instructor')
+        # sum of ratings stars  / len of rating how many ratings 
+        sum = 0
+        ratings = Rating.objects.filter(Instructor=self) # no of ratings happened to the class
+
+        for x in ratings:
+            sum += x.stars
+
+        if len(ratings) > 0:
+            avrage_rating=sum / len(ratings)
+
+            return avrage_rating
+        else:
+            return 0
+
 class Instructor(Person):
+    no_of_ratings = models.IntegerField(default=0)
+    avg_rating = models.IntegerField(default=0)
     salary =  models.IntegerField(default=0)
     picture = models.ImageField(upload_to='images/instructors/')
     bio = models.TextField(max_length = 2000, null = False)
+    # Rating=models.FloatField(default=0)
     def __str__(self):
         return self.username
     class Meta:
         verbose_name = 'Instructor'
         verbose_name_plural = 'Instructors'
+
+        # if len(ratings) > 0:
+        #     self.Rating =sum / len(ratings)
+        #     self.save()
+        #     return self.Rating
+        # else:
+        #     return 0
+# ,'no_of_ratings','avg_rating'
 """"
     Category
 """
@@ -66,51 +99,27 @@ class Class(models.Model):
     class Meta:
         verbose_name = 'Class'
         verbose_name_plural = 'Classes'
-    def no_of_ratings(self):
-        ratings = Rating.objects.filter(Class=self)
-        return len(ratings)
     
-    def avg_rating(self):
-        # sum of ratings stars  / len of rating how many ratings 
-        sum = 0
-        ratings = Rating.objects.filter(Class=self) # no of ratings happened to the class
-
-        for x in ratings:
-            sum += x.stars
-
-        if len(ratings) > 0:
-            avrage_rating=sum / len(ratings)
-
-            return avrage_rating
-        else:
-            return 0
-
-    def __str__(self):
-        return self.title
-
-
-
-
-
 """"
     Rating
 """
-
-
 class Rating(models.Model):
-    Class = models.ForeignKey(Class, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE)
-    stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
-    # Student_ID= models.ForeignKey(Student, on_delete=models.CASCADE)
+    Student= models.ForeignKey(Student, on_delete=models.CASCADE)
+    Stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
+    Instructor= models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    Review=models.TextField(max_length = 4000, null = True)
     avrage_rating =models.FloatField(default=0)
+    no_of_ratings=models.FloatField(default=0)
 
     def __str__(self):
-        return str(self.Class)
+        return str(self.Instructor)
 
             #USER CAN'T rate the same class 2 times 
     class Meta:
-        unique_together = (('user', 'Class'),)
-        index_together = (('user', 'Class'),)
+        unique_together = (('Student', 'Instructor'),)
+        index_together =  (('Student', 'Instructor'),)
+
+
 """"
     news
 """
