@@ -123,11 +123,15 @@ class AlbumSerializer(serializers.ModelSerializer):
 class AlbumnewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
-        fields = '__all__'
+        fields =  ('id', 'name', 'Collection_ID','album')
     def to_representation(self, instance):
         rep = super(AlbumnewSerializer, self).to_representation(instance)
         rep['Collection_ID'] = instance.Collection_ID.name
+        att = AlbumPhoto.objects.filter(Album_ID=instance.id).first()
+        rep['album']=[]
+        rep['album'].append({"pic":str(att.picture)})
         return rep
+
 #######################
 """"
     albumPhotos may be delete all photos (select one photo)
