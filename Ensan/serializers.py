@@ -8,8 +8,9 @@ from rest_framework.response import Response
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ('username','password','email','phoneNumber','is_staff')
-        # extra_kwargs = {'password':{'write_only':True,'required':True}}
+        fields = ('id','username','password','email','phoneNumber','is_staff')
+        extra_kwargs = {#'password':{'write_only':True,'required':True},
+                        'is_staff':{'default':False}}
     def create(self,validated_data):
         person = Person.objects.create_user(**validated_data)
         Token.objects.create(user=person)
@@ -20,9 +21,10 @@ class PersonSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','username','password','email','phoneNumber','is_staff','attend')
-        extra_kwargs = {'password':{'write_only':False,'required':True},
-                        'attend':{'required':False}}
+        fields = ('id','username','password','email','phoneNumber','is_staff')
+        extra_kwargs = {#'password':{'write_only':False,'required':True},
+                        'attend':{'required':False},
+                        'is_staff':{'default':False}}
     def create(self,validated_data):
         student = Student.objects.create_user(**validated_data)
         Token.objects.create(user=student)
@@ -48,13 +50,31 @@ class StudentSerializer(serializers.ModelSerializer):
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
-        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff','classinfo')
-        extra_kwargs = {'password':{'write_only':False,'required':True},
-                        'classinfo':{'required':False}}
+        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff')
+        extra_kwargs = {#'password':{'write_only':False,'required':True},
+                        'classinfo':{'required':False},
+                        'is_staff':{'default':True}}
     def create(self,validated_data):
         instructor = Instructor.objects.create_user(**validated_data)
         Token.objects.create(user=instructor)
         return instructor
+    
+    # def update(self, request, *args, **kwargs):
+    #     serializer = self(request.user, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    # def update(self, instance, validated_data):
+    
+    #     password = validated_data.pop('password', None)
+    #     for (key, value) in validated_data.items():
+    #         setattr(instance, key, value)
+    #     if password is not None:
+    #         instance.set_password(password)
+    #     instance.save()
+    #     Token.objects.create(user=instance)
+    #     return instance
+
     def to_representation(self, instance):
         rep = super(InstructorSerializer, self).to_representation(instance)
         att = Class.objects.filter(Instructor_ID=instance.id).all()
