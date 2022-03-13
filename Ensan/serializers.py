@@ -15,6 +15,15 @@ class PersonSerializer(serializers.ModelSerializer):
         person = Person.objects.create_user(**validated_data)
         Token.objects.create(user=person)
         return person
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
 """"
     students
 """
@@ -29,6 +38,15 @@ class StudentSerializer(serializers.ModelSerializer):
         student = Student.objects.create_user(**validated_data)
         Token.objects.create(user=student)
         return student
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
     
     def to_representation(self, instance):
         rep = super(StudentSerializer, self).to_representation(instance)
@@ -59,21 +77,14 @@ class InstructorSerializer(serializers.ModelSerializer):
         Token.objects.create(user=instructor)
         return instructor
     
-    # def update(self, request, *args, **kwargs):
-    #     serializer = self(request.user, data=request.data, partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    # def update(self, instance, validated_data):
-    
-    #     password = validated_data.pop('password', None)
-    #     for (key, value) in validated_data.items():
-    #         setattr(instance, key, value)
-    #     if password is not None:
-    #         instance.set_password(password)
-    #     instance.save()
-    #     Token.objects.create(user=instance)
-    #     return instance
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
 
     def to_representation(self, instance):
         rep = super(InstructorSerializer, self).to_representation(instance)
