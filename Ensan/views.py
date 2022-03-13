@@ -87,6 +87,13 @@ def albumPhotosnew(request,Aid):
     return Response(newalbumPhotos_ser.data)
 
 
+@api_view(['GET'])
+def get_user(request,id):
+    user=Person.objects.filter(username=id).first()
+    user_ser=UserSerializer(user,many=False)
+    return Response(user_ser.data)
+
+
 # @action(methods=['put'], detail=True)
 # def change_password(self, request, pk):
 #     serializer = PasswordSerializer(data=request.data)

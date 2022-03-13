@@ -21,6 +21,7 @@ urlpatterns = [
     path('albumphotonew/<int:Aid>',views.albumPhotosnew,name='albumPhotonew'),
     ##################
     path('albumsnew/<int:cid>',views.albumsnew,name='albumsnew'),
+    path('get_user/<id>',views.get_user,name='get_user'),
     ####################
     path('api-auth',include('rest_framework.urls')),
     path('authtoken/', obtain_auth_token),

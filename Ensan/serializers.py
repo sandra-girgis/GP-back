@@ -157,6 +157,14 @@ class PhotoSerializer(serializers.ModelSerializer):
             rep['Album_ID'] = instance.Album_ID.name
             return rep
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+
+
+
 # class PasswordSerializer(serializers.Serializer):
 #     """
 #     Serializer for password change endpoint.
