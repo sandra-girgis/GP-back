@@ -48,8 +48,8 @@ class InstructorAdmin(UserAdmin):
             'fields': ('username','email','password1','password2','is_staff','phoneNumber','salary' ,'picture' ,'bio')
         }),
     )
-    list_display = ('username','email','password','salary' ,'phoneNumber','picture' ,'bio','Stars','Review')
-    search_fields = ['username','email','password','salary' ,'phoneNumber','picture' ,'bio','Stars','Review']
+    list_display = ('username','email','password','salary' ,'phoneNumber','picture' ,'bio')
+    # search_fields = ['username','email','password','salary' ,'phoneNumber','picture' ,'bio']
 
 class ClassAdmin(admin.ModelAdmin):
     fieldsets = ( 

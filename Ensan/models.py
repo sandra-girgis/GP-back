@@ -45,6 +45,8 @@ def avg_rating(self):
             return 0
 
 class Instructor(Person):
+    Stars =  models.ForeignKey('Rating',related_name="ratinginfo", on_delete=models.CASCADE)
+    Review=models.OneToOneField('Rating',related_name="ratinginfo", on_delete=models.CASCADE)
     no_of_ratings = models.IntegerField(default=0)
     avg_rating = models.IntegerField(default=0)
     salary =  models.IntegerField(default=0)
@@ -106,8 +108,8 @@ class Class(models.Model):
 class Rating(models.Model):
     Student= models.ForeignKey(Student, on_delete=models.CASCADE)
     Stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
-    Instructor= models.ForeignKey(Instructor, on_delete=models.CASCADE)
     Review=models.TextField(max_length = 4000, null = True)
+    Instructor= models.ForeignKey(Instructor, on_delete=models.CASCADE)
     avrage_rating =models.FloatField(default=0)
     no_of_ratings=models.FloatField(default=0)
 
