@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 import os
-
+from django.utils import timezone
 """"
     persons
 """
@@ -50,9 +50,8 @@ class Instructor(Person):
     no_of_ratings = models.IntegerField(default=0)
     avg_rating = models.IntegerField(default=0)
     salary =  models.IntegerField(default=0)
-    picture = models.ImageField(upload_to='images/instructors/')
-    bio = models.TextField(max_length = 2000, null = False)
-    # Rating=models.FloatField(default=0)
+    picture = models.ImageField(upload_to='images/instructors/',null = True)
+    bio = models.TextField(max_length = 2000, null = True)
     def __str__(self):
         return self.username
     class Meta:
@@ -136,7 +135,7 @@ def get_upload_path(instance, filename):
 class News(models.Model):
     title = models.CharField(max_length = 100, null = False)
     content = models.TextField(max_length = 4000, null = False)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     picture = models.ImageField(upload_to=get_upload_path)
     Category_ID= models.ForeignKey(Category,related_name="newscategory", on_delete=models.CASCADE)
     def __str__(self):
