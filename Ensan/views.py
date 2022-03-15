@@ -5,6 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework import request, status, viewsets
 from .models import *
 from .serializers import *
+from django.core.mail import send_mail
+import json
 ############
 from rest_framework.authentication import BasicAuthentication , TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
