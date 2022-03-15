@@ -74,7 +74,7 @@ class StudentSerializer(serializers.ModelSerializer):
                                 "CategoryName":i.Class_ID.Category_ID.name,
                                 "Instructor_ID":i.Class_ID.Instructor_ID.username,
                                 "Rating":rating.stars,
-                                
+                                "InsID":i.Class_ID.Instructor_ID.id,
                                 })
             else:
                 rep['attend'].append({"PaymentStatus":i.paymentStatus,
@@ -86,7 +86,7 @@ class StudentSerializer(serializers.ModelSerializer):
                 "CategoryName":i.Class_ID.Category_ID.name,
                 "Instructor_ID":i.Class_ID.Instructor_ID.username,
                 "Rating":0,
-                                
+                "InsID":i.Class_ID.Instructor_ID.id,
                                 })
         return rep
 """"
