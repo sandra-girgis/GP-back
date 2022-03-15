@@ -20,9 +20,6 @@ router.register('ratings', RatingViewSet)
 urlpatterns = [
     path('',include(router.urls)),
     path('albumphotonew/<int:Aid>',views.albumPhotosnew,name='albumPhotonew'),
-    path('strate/<int:stid>/<int:insid>',views.strate,name='strate'),
-
-
     
     ##################
     path('albumsnew/<int:cid>',views.albumsnew,name='albumsnew'),

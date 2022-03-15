@@ -240,10 +240,3 @@ def get_user(request,id):
 
 
 
-
-# function to know if the stu rated the inst or not 
-@api_view(['GET'])
-def strate(request,stid,insid):
-    rating = Rating.objects.filter(student=stid, instructor=insid).first()
-    rate_ser=RatingSerializer(rating,many=False)
-    return Response(rate_ser.data)

@@ -62,13 +62,31 @@ class StudentSerializer(serializers.ModelSerializer):
         att = Attend.objects.filter(Student_ID=instance.id).all()
         rep['attend']=[]
         for i in att:
-            rep['attend'].append({"PaymentStatus":i.paymentStatus,
+            if Rating.objects.filter(student=instance.id, instructor=i.Class_ID.Instructor_ID.id).exists():
+                rating = Rating.objects.filter(student=instance.id, instructor=i.Class_ID.Instructor_ID.id).first()
+
+                rep['attend'].append({"PaymentStatus":i.paymentStatus,
                                 "ClassName":i.Class_ID.title,
                                 "content":i.Class_ID.content,
                                 "from":i.Class_ID.fromTime,
                                 "to":i.Class_ID.toTime,
                                 "day":i.Class_ID.day,
                                 "CategoryName":i.Class_ID.Category_ID.name,
+                                "Instructor_ID":i.Class_ID.Instructor_ID.username,
+                                "Rating":rating.stars,
+                                
+                                })
+            else:
+                rep['attend'].append({"PaymentStatus":i.paymentStatus,
+                "ClassName":i.Class_ID.title,
+                "content":i.Class_ID.content,
+                "from":i.Class_ID.fromTime,
+                "to":i.Class_ID.toTime,
+                "day":i.Class_ID.day,
+                "CategoryName":i.Class_ID.Category_ID.name,
+                "Instructor_ID":i.Class_ID.Instructor_ID.username,
+                "Rating":0,
+                                
                                 })
         return rep
 """"
