@@ -86,9 +86,9 @@ class AlbumPhotoAdmin(admin.ModelAdmin):
     list_display = ('picture','Album_ID') 
 
 class RatingAdmin(admin.ModelAdmin):
-    fieldsets = (['Rating Details',{'fields':['Student', 'Instructor','Stars','Review']}],)
+    fieldsets = (['Rating Details',{'fields':['Student', 'Instructor']}],)
 
-    list_display = ['id', 'Student','Instructor','Stars','Review']
+    list_display = ['id', 'Student','Instructor']
 
     list_filter =  ['Instructor']
 

@@ -11,7 +11,7 @@ router.register('students', students)
 router.register('instructors', instructors)
 router.register('category', category)
 router.register('classes', classes)
-router.register('rating', rating)
+# router.register('rating', rating)
 router.register('news', news)
 router.register('collections', collections)
 router.register('albums', albums)
@@ -28,4 +28,10 @@ urlpatterns = [
     path('authtoken/', obtain_auth_token),
     # path('change_password/<int:pk>',views.change_password,name='change_password'),
     
+
+
+
+    #####################
+    path('', main_view, name="main-view"),
+    path('rate/', rate_image, name='rate-view'),
 ]

@@ -46,7 +46,6 @@ def avg_rating(self):
 
 class Instructor(Person):
     Stars =  models.ForeignKey('Rating',related_name="ratinginfo", on_delete=models.CASCADE)
-    Review=models.OneToOneField('Rating',related_name="ratinginfo", on_delete=models.CASCADE)
     no_of_ratings = models.IntegerField(default=0)
     avg_rating = models.IntegerField(default=0)
     salary =  models.IntegerField(default=0)
@@ -104,21 +103,40 @@ class Class(models.Model):
 """"
     Rating
 """
+# class Rating(models.Model):
+#     Student= models.ForeignKey(Student, on_delete=models.CASCADE)
+#     Stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
+#     Review=models.TextField(max_length = 4000, null = True)
+#     Instructor= models.ForeignKey(Instructor, on_delete=models.CASCADE)
+#     avrage_rating =models.FloatField(default=0)
+#     no_of_ratings=models.FloatField(default=0)
+
+#     def __str__(self):
+#         return str(self.Instructor)
+
+#             #USER CAN'T rate the same class 2 times 
+#     class Meta:
+#         unique_together = (('Student', 'Instructor'),)
+#         index_together =  (('Student', 'Instructor'),)
+
+
+##########################
+
 class Rating(models.Model):
-    Student= models.ForeignKey(Student, on_delete=models.CASCADE)
-    Stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
-    Review=models.TextField(max_length = 4000, null = True)
     Instructor= models.ForeignKey(Instructor, on_delete=models.CASCADE)
-    avrage_rating =models.FloatField(default=0)
-    no_of_ratings=models.FloatField(default=0)
+    score = models.IntegerField(default=0,
+                                validators=[
+                                    MaxValueValidator(5),
+                                    MinValueValidator(0),
+                                ]
+                                )
+    Student= models.ForeignKey(Student, on_delete=models.CASCADE)
+    Review=models.TextField(max_length = 4000, null = True)
 
     def __str__(self):
-        return str(self.Instructor)
+        return str(self.pk)
 
-            #USER CAN'T rate the same class 2 times 
-    class Meta:
-        unique_together = (('Student', 'Instructor'),)
-        index_together =  (('Student', 'Instructor'),)
+
 
 
 """"

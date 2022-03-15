@@ -9,6 +9,7 @@ from rest_framework.authentication import BasicAuthentication, TokenAuthenticati
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view, renderer_classes, action
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+from django.http import JsonResponse
 from .models import *
 from .serializers import *
 
@@ -55,48 +56,51 @@ class instructors(viewsets.ModelViewSet):
     queryset = Instructor.objects.all()
     serializer_class = InstructorSerializer
 
-    @action(detail=True, methods=['post'])
-#             create or update
-    def rate_class(self, request, pk=None):
-        if 'stars' in request.data:
-            Instructor = Instructor.objects.get(id=pk)
-            stars = request.data['stars']
-            student = request.Student
-            # student= Student.objects.get(username=username)
-            # print(student)
-            # wa5du mn l instance bta3ty
-            # update 3shan lw 3ndi asln da l mantqy lw msh mwgud y3ml except
-            # kan lazm arudelu l serializer eli gayly mn l rate
 
-            try:
-                rating = Rating.objects.get(stars=stars, Student=student.id, Instructor=Instructor.id)  # specific rate
-                rating.stars = stars
-                rating.save()
-                serializer = RatingSerializer(rating, many=False)
-                json = {
-                    'message': 'Instructor Rate Updated',
-                    'result': Rating_serializer.data
-                }
-                return Response(json, status=status.HTTP_200_OK)
+    
 
-            except:
-                # create if the rate not exist
-                # create of new rating
-                #rating = Rating.objects.create(stars=stars, Instructor=Instructor.id, user=user)
+#     @action(detail=True, methods=['post'])
+# #             create or update
+#     def rate_class(self, request, pk=None):
+#         if 'stars' in request.data:
+#             Instructor = Instructor.objects.get(id=pk)
+#             stars = request.data['stars']
+#             student = request.Student
+#             # student= Student.objects.get(username=username)
+#             # print(student)
+#             # wa5du mn l instance bta3ty
+#             # update 3shan lw 3ndi asln da l mantqy lw msh mwgud y3ml except
+#             # kan lazm arudelu l serializer eli gayly mn l rate
 
-                rating = Rating.objects.get(student=Student.id, Instructor=Instructor.id)  # specific rate
-                serializer = RatingSerializer(rating, many=False)
-                json = {
-                    'message': 'Instructor Rate Created',
-                    'result': Rating_serializer.data
-                }
-                return Response(json, status=status.HTTP_200_OK)
+#             try:
+#                 rating = Rating.objects.get(stars=stars, Student=student.id, Instructor=Instructor.id)  # specific rate
+#                 rating.stars = stars
+#                 rating.save()
+#                 serializer = RatingSerializer(rating, many=False)
+#                 json = {
+#                     'message': 'Instructor Rate Updated',
+#                     'result': Rating_serializer.data
+#                 }
+#                 return Response(json, status=status.HTTP_200_OK)
 
-        else:
-            json = {
-                'message': 'stars not provided'
-            }
-            return Response(json, status=status.HTTP_400_BAD_REQUEST)
+#             except:
+#                 # create if the rate not exist
+#                 # create of new rating
+#                 #rating = Rating.objects.create(stars=stars, Instructor=Instructor.id, user=user)
+
+#                 rating = Rating.objects.get(student=Student.id, Instructor=Instructor.id)  # specific rate
+#                 serializer = RatingSerializer(rating, many=False)
+#                 json = {
+#                     'message': 'Instructor Rate Created',
+#                     'result': Rating_serializer.data
+#                 }
+#                 return Response(json, status=status.HTTP_200_OK)
+
+#         else:
+#             json = {
+#                 'message': 'stars not provided'
+#             }
+#             return Response(json, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -143,28 +147,26 @@ class classes(viewsets.ModelViewSet):
 """
 
 
-class rating(viewsets.ModelViewSet):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
+# class rating(viewsets.ModelViewSet):
+#     queryset = Rating.objects.all()
+#     serializer_class = RatingSerializer
 
-    authentication_classes = (TokenAuthentication, )
-    # permission_classes = (IsAuthenticated,)
+#     authentication_classes = (TokenAuthentication, )
+#     # permission_classes = (IsAuthenticated,)
 
-    def update(self, request, *args, **kwargs):
-        response = {
-            'message': 'Invalid way to create or update '
-        }
+#     def update(self, request, *args, **kwargs):
+#         response = {
+#             'message': 'Invalid way to create or update '
+#         }
 
-        return Response(response, status=status.HTTP_400_BAD_REQUEST)
+#         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
-    def create(self, request, *args, **kwargs):
-        response = {
-            'message': 'Invalid way to create or update '
-        }
+#     def create(self, request, *args, **kwargs):
+#         response = {
+#             'message': 'Invalid way to create or update '
+#         }
 
-        return Response(response, status=status.HTTP_400_BAD_REQUEST)
-
-
+#         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -172,6 +174,25 @@ class rating(viewsets.ModelViewSet):
 
 
 
+
+def main_view(request):
+    obj = Rating.objects.filter(score=0).order_by("?").first()
+    context ={
+        'object': obj
+    }
+    return render(request, 'ratings/main.html', context)
+
+
+def rate_image(request):
+    if request.method == 'POST':
+        el_id = request.POST.get('el_id')
+        val = request.POST.get('val')
+        print(val)
+        obj = Rating.objects.get(id=el_id)
+        obj.score = val
+        obj.save()
+        return JsonResponse({'success':'true', 'score': val}, safe=False)
+    return JsonResponse({'success':'false'})
 
 
 
