@@ -8,25 +8,45 @@ from rest_framework.response import Response
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ('username','password','email','phoneNumber','is_staff')
-        # extra_kwargs = {'password':{'write_only':True,'required':True}}
+        fields = ('id','username','password','email','phoneNumber','is_staff')
+        extra_kwargs = {#'password':{'write_only':True,'required':True},
+                        'is_staff':{'default':False}}
     def create(self,validated_data):
         person = Person.objects.create_user(**validated_data)
         Token.objects.create(user=person)
         return person
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
 """"
     students
 """
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','username','password','email','phoneNumber','is_staff','attend')
-        extra_kwargs = {'password':{'write_only':True,'required':True},
-                        'attend':{'required':False}}
+        fields = ('id','username','password','email','phoneNumber','is_staff')
+        extra_kwargs = {#'password':{'write_only':False,'required':True},
+                        'attend':{'required':False},
+                        'is_staff':{'default':False}}
     def create(self,validated_data):
         student = Student.objects.create_user(**validated_data)
         Token.objects.create(user=student)
         return student
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
     
     def to_representation(self, instance):
         rep = super(StudentSerializer, self).to_representation(instance)
@@ -48,13 +68,24 @@ class StudentSerializer(serializers.ModelSerializer):
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
-        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff','classinfo')
-        extra_kwargs = {'password':{'write_only':True,'required':True},
-                        'classinfo':{'required':False}}
+        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff')
+        extra_kwargs = {#'password':{'write_only':False,'required':True},
+                        'classinfo':{'required':False},
+                        'is_staff':{'default':True}}
     def create(self,validated_data):
         instructor = Instructor.objects.create_user(**validated_data)
         Token.objects.create(user=instructor)
         return instructor
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
+
     def to_representation(self, instance):
         rep = super(InstructorSerializer, self).to_representation(instance)
         att = Class.objects.filter(Instructor_ID=instance.id).all()
@@ -94,7 +125,7 @@ class ClassSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ('id', 'title', 'content', 'date', 'picture', 'Category_ID')
+        fields = ('id', 'title', 'date','content', 'picture', 'Category_ID')
 
     def to_representation(self, instance):
         rep = super(NewsSerializer, self).to_representation(instance)
@@ -105,19 +136,34 @@ class NewsSerializer(serializers.ModelSerializer):
 """
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AlbumPhoto
+        model = Collection
         fields = '__all__'
 """"
     albums all albums (select one album)
 """
 class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Class
+        model = Album
         fields = '__all__'
     def to_representation(self, instance):
         rep = super(AlbumSerializer, self).to_representation(instance)
         rep['Collection_ID'] = instance.Collection_ID.name
         return rep
+
+########################
+class AlbumnewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields =  ('id', 'name', 'Collection_ID','album')
+    def to_representation(self, instance):
+        rep = super(AlbumnewSerializer, self).to_representation(instance)
+        rep['Collection_ID'] = instance.Collection_ID.name
+        att = AlbumPhoto.objects.filter(Album_ID=instance.id).first()
+        rep['album']=[]
+        rep['album'].append({"pic":str(att.picture)})
+        return rep
+
+#######################
 """"
     albumPhotos may be delete all photos (select one photo)
 """
@@ -141,3 +187,18 @@ class PhotoSerializer(serializers.ModelSerializer):
             rep = super(PhotoSerializer, self).to_representation(instance)
             rep['Album_ID'] = instance.Album_ID.name
             return rep
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+
+
+
+# class PasswordSerializer(serializers.Serializer):
+#     """
+#     Serializer for password change endpoint.
+#     """
+#     old_password = serializers.CharField(required=True)
+#     new_password = serializers.CharField(required=True)
