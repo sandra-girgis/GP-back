@@ -58,7 +58,7 @@ class ClassAdmin(admin.ModelAdmin):
     )
     list_display = (
     'title', 'content' ,'fromTime','toTime', 'day', 'Category_ID','Instructor_ID',)
-   
+
 
     search_fields = ['title', 'content']
     list_filter = ['title', 'content']
@@ -85,6 +85,12 @@ class AlbumPhotoAdmin(admin.ModelAdmin):
     )
     list_display = ('picture','Album_ID')
 
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ['id', 'instructor', 'student', 'stars']
+    list_filter = ['instructor', 'student']
+    
+
+
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Collection,CollectionAdmin)
 admin.site.register(Student,StudentAdmin)
@@ -94,3 +100,4 @@ admin.site.register(Attend,AttendAdmin)
 admin.site.register(News,NewsAdmin)
 admin.site.register(Album,AlbumAdmin)
 admin.site.register(AlbumPhoto,AlbumPhotoAdmin)
+admin.site.register(Rating, RatingAdmin)    
