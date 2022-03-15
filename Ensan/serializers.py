@@ -15,7 +15,7 @@ class PersonSerializer(serializers.ModelSerializer):
         person = Person.objects.create_user(**validated_data)
         Token.objects.create(user=person)
         return person
-   
+
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             if attr == 'password':
@@ -24,6 +24,15 @@ class PersonSerializer(serializers.ModelSerializer):
                 setattr(instance, attr, value)
         instance.save()
         return instance
+
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'stars', 'student', 'instructor')
+
+
 """"
     students
 """
@@ -68,7 +77,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
-        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff')
+        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff','no_of_ratings', 'avg_rating')
         extra_kwargs = {#'password':{'write_only':False,'required':True},
                         'classinfo':{'required':False},
                         'is_staff':{'default':True}}

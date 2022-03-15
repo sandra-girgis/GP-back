@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 """"
     persons
 """
@@ -28,6 +30,41 @@ class Instructor(Person):
     class Meta:
         verbose_name = 'Instructor'
         verbose_name_plural = 'Instructors'
+    def no_of_ratings(self):
+        ratings = Rating.objects.filter(instructor=self)
+        return len(ratings)
+    
+    def avg_rating(self):
+        # sum of ratings stars  / len of rating hopw many ratings 
+        sum = 0
+        ratings = Rating.objects.filter(instructor=self) # no of ratings happened to the meal 
+
+        for x in ratings:
+            sum += x.stars
+
+        if len(ratings) > 0:
+            return sum / len(ratings)
+        else:
+            return 0
+
+    # def __str__(self):
+    #     return self.title
+
+
+
+class Rating(models.Model):
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
+    # def __str__(self):
+    #     return self.meal
+
+
+    class Meta:
+        unique_together = (('student', 'instructor'),)
+        index_together = (('student', 'instructor'),)
+
+
 """"
     Category
 """
