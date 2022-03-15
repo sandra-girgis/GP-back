@@ -31,12 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'Ensan',
-    'corsheaders',
-    'rest_framework',
     'rest_framework.authtoken',
-    'django.contrib.admin',
     'django.contrib.auth',
+    'rest_framework',
+    'corsheaders',
+    'Ensan',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'Ensan.Person'
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -55,10 +56,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
@@ -97,6 +94,16 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_AUTHENTICATION_CLASSES': 
+    # ['rest_framework.authentication.TokenAuthentication',],
+    # 'DEFAULT_PERMISSION_CLASSES':
+    # ['rest_framework.permissions.IsAuthenticated',],
+}
+
+# AllowAny \\ IsAuthenticated \\ IaAdminuser \\ IsAuthenticatedReadOnly
 
 AUTH_PASSWORD_VALIDATORS = [
     {
