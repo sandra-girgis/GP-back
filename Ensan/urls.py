@@ -15,10 +15,13 @@ router.register('news', news)
 router.register('collections', collections)
 router.register('albums', albums)
 router.register('albumPhotos', albumPhotos)
+router.register('ratings', RatingViewSet)
+router.register('attend', attend)
 
 urlpatterns = [
     path('',include(router.urls)),
     path('albumphotonew/<int:Aid>',views.albumPhotosnew,name='albumPhotonew'),
+    
     ##################
     path('albumsnew/<int:cid>',views.albumsnew,name='albumsnew'),
     path('get_user/<id>',views.get_user,name='get_user'),
@@ -26,5 +29,4 @@ urlpatterns = [
     path('api-auth',include('rest_framework.urls')),
     path('authtoken/', obtain_auth_token),
     # path('change_password/<int:pk>',views.change_password,name='change_password'),
-    
 ]
