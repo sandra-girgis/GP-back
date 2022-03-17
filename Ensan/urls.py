@@ -16,6 +16,7 @@ router.register('collections', collections)
 router.register('albums', albums)
 router.register('albumPhotos', albumPhotos)
 router.register('ratings', RatingViewSet)
+router.register('attend', attend)
 
 urlpatterns = [
     path('',include(router.urls)),

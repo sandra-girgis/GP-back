@@ -32,6 +32,10 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = ('id', 'stars', 'student', 'instructor')
 
+class AttendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attend
+        fields = ('paymentStatus', 'Student_ID', 'Class_ID')
 
 """"
     students
@@ -181,13 +185,16 @@ class AlbumSerializer(serializers.ModelSerializer):
 class AlbumnewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
-        fields =  ('id', 'name', 'Collection_ID','album')
+        fields =  ('id', 'name', 'Collection_ID')
     def to_representation(self, instance):
         rep = super(AlbumnewSerializer, self).to_representation(instance)
         rep['Collection_ID'] = instance.Collection_ID.name
-        att = AlbumPhoto.objects.filter(Album_ID=instance.id).first()
         rep['album']=[]
-        rep['album'].append({"pic":str(att.picture)})
+        if AlbumPhoto.objects.filter(Album_ID=instance.id).exists():
+            att = AlbumPhoto.objects.filter(Album_ID=instance.id).first()
+            rep['album'].append(str(att.picture))
+        else:
+            rep['album'].append(str(""))
         return rep
 
 #######################

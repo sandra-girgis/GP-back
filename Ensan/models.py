@@ -47,23 +47,15 @@ class Instructor(Person):
         else:
             return 0
 
-    # def __str__(self):
-    #     return self.title
-
-
 
 class Rating(models.Model):
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
-    # def __str__(self):
-    #     return self.meal
-
 
     class Meta:
         unique_together = (('student', 'instructor'),)
         index_together = (('student', 'instructor'),)
-
 
 """"
     Category
