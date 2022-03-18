@@ -13,6 +13,7 @@ class Person(AbstractUser):
     students
 """
 class Student(Person):
+    picture = models.ImageField(upload_to='images/students/',null = True,default="images/instructors/alterative.jpg")
     def __str__(self):
         return self.username
     class Meta:
@@ -23,7 +24,7 @@ class Student(Person):
 """
 class Instructor(Person):
     salary =  models.IntegerField(default=0)
-    picture = models.ImageField(upload_to='images/instructors/',null = True)
+    picture = models.ImageField(upload_to='images/instructors/',null = True,default="images/instructors/alterative.jpg")
     bio = models.TextField(max_length = 2000, null = True)
     def __str__(self):
         return self.username

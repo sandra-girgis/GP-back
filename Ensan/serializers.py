@@ -43,7 +43,7 @@ class AttendSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','username','password','email','phoneNumber','is_staff')
+        fields = ('id','username','password','email','phoneNumber','is_staff','picture')
         extra_kwargs = {#'password':{'write_only':False,'required':True},
                         'attend':{'required':False},
                         'is_staff':{'default':False}}
