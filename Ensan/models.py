@@ -70,21 +70,21 @@ class Category(models.Model):
 """"
     classes
 """
-DAYS_OF_WEEK = (
-    ('Monday', 'Monday'),
-    ('Tuesday', 'Tuesday'),
-    ('Wednesday', 'Wednesday'),
-    ('Thursday', 'Thursday'),
-    ('Friday', 'Friday'),
-    ('Saturday', 'Saturday'),
-    ('Sunday', 'Sunday'),
-)
+# DAYS_OF_WEEK = (
+#     ('Monday', 'Monday'),
+#     ('Tuesday', 'Tuesday'),
+#     ('Wednesday', 'Wednesday'),
+#     ('Thursday', 'Thursday'),
+#     ('Friday', 'Friday'),
+#     ('Saturday', 'Saturday'),
+#     ('Sunday', 'Sunday'),
+# )
 class Class(models.Model):
     title = models.CharField(max_length = 100, null = False)
     content = models.TextField(max_length = 4000, null = False)
     fromTime = models.TimeField()
     toTime = models.TimeField()
-    day = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
+    day = models.CharField(max_length=10)
     Category_ID= models.ForeignKey(Category,related_name="classinfo", on_delete=models.CASCADE)
     Instructor_ID= models.ForeignKey(Instructor,related_name="classinfo", on_delete=models.CASCADE)
     def __str__(self):

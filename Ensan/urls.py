@@ -18,6 +18,7 @@ router.register('albumPhotos', albumPhotos)
 router.register('ratings', RatingViewSet)
 router.register('attend', attend)
 
+
 urlpatterns = [
     path('',include(router.urls)),
     path('albumphotonew/<int:Aid>',views.albumPhotosnew,name='albumPhotonew'),
