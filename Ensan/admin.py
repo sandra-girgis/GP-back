@@ -4,8 +4,8 @@ from .models import *
 
 # from .models import Class, Rating
 
-"""" 
-Admin panel 
+""""
+Admin panel
 
 Keyword arguments:
 model -- take the model 'table' from model.py
@@ -52,13 +52,13 @@ class InstructorAdmin(UserAdmin):
     search_fields = ['username','email','password','salary' ,'phoneNumber','picture' ,'bio']
 
 class ClassAdmin(admin.ModelAdmin):
-    fieldsets = ( 
+    fieldsets = (
         ['Class Details',{'fields':['title', 'content' ,'fromTime','toTime', 'day', 'Category_ID','Instructor_ID',
 ]}],
     )
-    list_display = ( 
+    list_display = (
     'title', 'content' ,'fromTime','toTime', 'day', 'Category_ID','Instructor_ID',)
-    
+
 
     search_fields = ['title', 'content']
     list_filter = ['title', 'content']
@@ -78,12 +78,18 @@ class NewsAdmin(admin.ModelAdmin):
 class AlbumAdmin(admin.ModelAdmin):
     fieldsets = (
         ['Album Details',{'fields':['name','Collection_ID']}], )
-    list_display = ('name','Collection_ID') 
+    list_display = ('name','Collection_ID')
 
 class AlbumPhotoAdmin(admin.ModelAdmin):
     fieldsets = (['AlbumPhoto Details',{'fields':['picture','Album_ID']}],
     )
-    list_display = ('picture','Album_ID') 
+    list_display = ('picture','Album_ID')
+
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ['id', 'instructor', 'student', 'stars']
+    list_filter = ['instructor', 'student']
+    
+
 
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Collection,CollectionAdmin)
@@ -94,3 +100,4 @@ admin.site.register(Attend,AttendAdmin)
 admin.site.register(News,NewsAdmin)
 admin.site.register(Album,AlbumAdmin)
 admin.site.register(AlbumPhoto,AlbumPhotoAdmin)
+admin.site.register(Rating, RatingAdmin)    

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
+from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 """"
     persons
@@ -11,6 +13,7 @@ class Person(AbstractUser):
     students
 """
 class Student(Person):
+    picture = models.ImageField(upload_to='images/students/',null = True,default="images/instructors/alterative.jpg")
     def __str__(self):
         return self.username
     class Meta:
@@ -21,13 +24,40 @@ class Student(Person):
 """
 class Instructor(Person):
     salary =  models.IntegerField(default=0)
-    picture = models.ImageField(upload_to='images/instructors/')
-    bio = models.TextField(max_length = 2000, null = False)
+    picture = models.ImageField(upload_to='images/instructors/',null = True,default="images/instructors/alterative.jpg")
+    bio = models.TextField(max_length = 2000, null = True)
     def __str__(self):
         return self.username
     class Meta:
         verbose_name = 'Instructor'
         verbose_name_plural = 'Instructors'
+    def no_of_ratings(self):
+        ratings = Rating.objects.filter(instructor=self)
+        return len(ratings)
+    
+    def avg_rating(self):
+        # sum of ratings stars  / len of rating hopw many ratings 
+        sum = 0
+        ratings = Rating.objects.filter(instructor=self) # no of ratings happened to the meal 
+
+        for x in ratings:
+            sum += x.stars
+
+        if len(ratings) > 0:
+            return sum / len(ratings)
+        else:
+            return 0
+
+
+class Rating(models.Model):
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    stars = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
+
+    class Meta:
+        unique_together = (('student', 'instructor'),)
+        index_together = (('student', 'instructor'),)
+
 """"
     Category
 """
@@ -41,21 +71,21 @@ class Category(models.Model):
 """"
     classes
 """
-DAYS_OF_WEEK = (
-    ('Monday', 'Monday'),
-    ('Tuesday', 'Tuesday'),
-    ('Wednesday', 'Wednesday'),
-    ('Thursday', 'Thursday'),
-    ('Friday', 'Friday'),
-    ('Saturday', 'Saturday'),
-    ('Sunday', 'Sunday'),
-)
+# DAYS_OF_WEEK = (
+#     ('Monday', 'Monday'),
+#     ('Tuesday', 'Tuesday'),
+#     ('Wednesday', 'Wednesday'),
+#     ('Thursday', 'Thursday'),
+#     ('Friday', 'Friday'),
+#     ('Saturday', 'Saturday'),
+#     ('Sunday', 'Sunday'),
+# )
 class Class(models.Model):
     title = models.CharField(max_length = 100, null = False)
     content = models.TextField(max_length = 4000, null = False)
     fromTime = models.TimeField()
     toTime = models.TimeField()
-    day = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
+    day = models.CharField(max_length=10)
     Category_ID= models.ForeignKey(Category,related_name="classinfo", on_delete=models.CASCADE)
     Instructor_ID= models.ForeignKey(Instructor,related_name="classinfo", on_delete=models.CASCADE)
     def __str__(self):
@@ -77,7 +107,7 @@ def get_upload_path(instance, filename):
 class News(models.Model):
     title = models.CharField(max_length = 100, null = False)
     content = models.TextField(max_length = 4000, null = False)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     picture = models.ImageField(upload_to=get_upload_path)
     Category_ID= models.ForeignKey(Category,related_name="newscategory", on_delete=models.CASCADE)
     def __str__(self):
