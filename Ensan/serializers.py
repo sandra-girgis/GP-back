@@ -15,7 +15,7 @@ class PersonSerializer(serializers.ModelSerializer):
         person = Person.objects.create_user(**validated_data)
         Token.objects.create(user=person)
         return person
-    
+
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             if attr == 'password':
@@ -24,13 +24,26 @@ class PersonSerializer(serializers.ModelSerializer):
                 setattr(instance, attr, value)
         instance.save()
         return instance
+
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'stars', 'student', 'instructor')
+
+class AttendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attend
+        fields = ('paymentStatus', 'Student_ID', 'Class_ID')
+
 """"
     students
 """
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','username','password','email','phoneNumber','is_staff')
+        fields = ('id','username','password','email','phoneNumber','is_staff','picture')
         extra_kwargs = {#'password':{'write_only':False,'required':True},
                         'attend':{'required':False},
                         'is_staff':{'default':False}}
@@ -38,7 +51,7 @@ class StudentSerializer(serializers.ModelSerializer):
         student = Student.objects.create_user(**validated_data)
         Token.objects.create(user=student)
         return student
-    
+   
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             if attr == 'password':
@@ -47,19 +60,37 @@ class StudentSerializer(serializers.ModelSerializer):
                 setattr(instance, attr, value)
         instance.save()
         return instance
-    
+   
     def to_representation(self, instance):
         rep = super(StudentSerializer, self).to_representation(instance)
         att = Attend.objects.filter(Student_ID=instance.id).all()
         rep['attend']=[]
         for i in att:
-            rep['attend'].append({"PaymentStatus":i.paymentStatus,
+            if Rating.objects.filter(student=instance.id, instructor=i.Class_ID.Instructor_ID.id).exists():
+                rating = Rating.objects.filter(student=instance.id, instructor=i.Class_ID.Instructor_ID.id).first()
+
+                rep['attend'].append({"PaymentStatus":i.paymentStatus,
                                 "ClassName":i.Class_ID.title,
                                 "content":i.Class_ID.content,
                                 "from":i.Class_ID.fromTime,
                                 "to":i.Class_ID.toTime,
                                 "day":i.Class_ID.day,
                                 "CategoryName":i.Class_ID.Category_ID.name,
+                                "Instructor_ID":i.Class_ID.Instructor_ID.username,
+                                "Rating":rating.stars,
+                                "InsID":i.Class_ID.Instructor_ID.id,
+                                })
+            else:
+                rep['attend'].append({"PaymentStatus":i.paymentStatus,
+                "ClassName":i.Class_ID.title,
+                "content":i.Class_ID.content,
+                "from":i.Class_ID.fromTime,
+                "to":i.Class_ID.toTime,
+                "day":i.Class_ID.day,
+                "CategoryName":i.Class_ID.Category_ID.name,
+                "Instructor_ID":i.Class_ID.Instructor_ID.username,
+                "Rating":0,
+                "InsID":i.Class_ID.Instructor_ID.id,
                                 })
         return rep
 """"
@@ -68,7 +99,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
-        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff')
+        fields = ('id','username','password','email','phoneNumber','salary','bio','picture','is_staff','no_of_ratings', 'avg_rating')
         extra_kwargs = {#'password':{'write_only':False,'required':True},
                         'classinfo':{'required':False},
                         'is_staff':{'default':True}}
@@ -76,7 +107,7 @@ class InstructorSerializer(serializers.ModelSerializer):
         instructor = Instructor.objects.create_user(**validated_data)
         Token.objects.create(user=instructor)
         return instructor
-    
+   
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             if attr == 'password':
@@ -154,13 +185,16 @@ class AlbumSerializer(serializers.ModelSerializer):
 class AlbumnewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
-        fields =  ('id', 'name', 'Collection_ID','album')
+        fields =  ('id', 'name', 'Collection_ID')
     def to_representation(self, instance):
         rep = super(AlbumnewSerializer, self).to_representation(instance)
         rep['Collection_ID'] = instance.Collection_ID.name
-        att = AlbumPhoto.objects.filter(Album_ID=instance.id).first()
         rep['album']=[]
-        rep['album'].append({"pic":str(att.picture)})
+        if AlbumPhoto.objects.filter(Album_ID=instance.id).exists():
+            att = AlbumPhoto.objects.filter(Album_ID=instance.id).first()
+            rep['album'].append(str(att.picture))
+        else:
+            rep['album'].append(str(""))
         return rep
 
 #######################
@@ -176,7 +210,7 @@ class AlbumPhotoSerializer(serializers.ModelSerializer):
         rep['Album_ID'] = instance.Album_ID.name
         return rep
 """"
-    albumPhotosnew all photos related to specific album 
+    albumPhotosnew all photos related to specific album
     important
 """
 class PhotoSerializer(serializers.ModelSerializer):
@@ -192,13 +226,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = '__all__'
-
-
-
-
-# class PasswordSerializer(serializers.Serializer):
-#     """
-#     Serializer for password change endpoint.
-#     """
-#     old_password = serializers.CharField(required=True)
-#     new_password = serializers.CharField(required=True)
