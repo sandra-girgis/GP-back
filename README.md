@@ -53,7 +53,7 @@
 
 ![std page](photos/std.png)
 
-<b> Multiple user types : Admin – Instructor – Student </b>
+- <b> Multiple user types : Admin – Instructor – Student </b>
 
     - you can log in as  Admin – Instructor – Student  
         Admin:
